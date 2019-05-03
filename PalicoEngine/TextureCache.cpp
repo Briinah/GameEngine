@@ -22,11 +22,9 @@ namespace Palico
 
 			textureMap.insert(make_pair(filePath, newTexture));
 
-			std::cout << "Loaded texture\n";
 			return newTexture;
 		}
 
-		std::cout << "Used cached texture \n";
 		return it->second;
 	}
 }

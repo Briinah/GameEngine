@@ -8,7 +8,7 @@
 
 namespace Palico
 {
-	enum class GlyphSortType
+	enum class SpriteSortType
 	{
 		NONE,
 		FRONT_TO_BACK,
@@ -16,7 +16,7 @@ namespace Palico
 		TEXTURE
 	};
 
-	struct Glyph 
+	struct Sprite 
 	{
 		GLuint texture;
 		float depth;
@@ -43,7 +43,7 @@ namespace Palico
 		~SpriteBatch();
 
 		void init();
-		void begin(GlyphSortType sortType = GlyphSortType::TEXTURE);
+		void begin(SpriteSortType sortType = SpriteSortType::TEXTURE);
 		void end();
 
 		void draw(const glm::vec4& destRect, const glm::vec4& uvRect, GLuint texture, float depth, const Color& color);
@@ -52,18 +52,18 @@ namespace Palico
 	private:
 		void createRenderBatches();
 		void createVertexArray();
-		void sortGlyphs();
+		void sortSprites();
 
-		static bool compareFrontToBack(Glyph* a, Glyph* b);
-		static bool compareBackToFront(Glyph* a, Glyph* b);
-		static bool compareTexture(Glyph* a, Glyph* b);
+		static bool compareFrontToBack(Sprite* a, Sprite* b);
+		static bool compareBackToFront(Sprite* a, Sprite* b);
+		static bool compareTexture(Sprite* a, Sprite* b);
 
 		GLuint vbo;
 		GLuint vao;
 
-		GlyphSortType sortType;
+		SpriteSortType sortType;
 
-		std::vector<Glyph*> glyphs;
+		std::vector<Sprite*> sprites;
 		std::vector<RenderBatch> renderBatches;
 	};
 

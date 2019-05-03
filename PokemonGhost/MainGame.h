@@ -13,7 +13,8 @@
 #include <PalicoEngine\InputManager.h>
 #include <PalicoEngine\Timing.h>
 
-#include "FireBall.h"
+#include "Player.h"
+#include "Level.h"
 
 enum class GameState { PLAY, EXIT };
 
@@ -46,9 +47,13 @@ private:
 	Palico::InputManager inputManager;
 	Palico::FpsLimiter fpsLimiter;
 
-	std::vector<FireBall> fireBalls;
+	Player player;
 
 	float fps;
 	float time;
+
+	std::vector<Level*> levels;
+
+	int currentLevel;
 };
 

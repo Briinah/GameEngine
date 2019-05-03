@@ -17,22 +17,30 @@ MainGame::MainGame() :
 
 MainGame::~MainGame()
 {
+	for (int i = 0; i < levels.size(); ++i)
+	{
+		delete levels[i];
+	}
 }
 
 
 void MainGame::run()
 {
 	initSystems();
+	levels.push_back(new Level("Levels/0.txt"));
+	currentLevel = 0;
 	gameLoop();
 }
 
 void MainGame::initSystems()
 {
 	Palico::init();
-	window.create("Game Engine", screenWidth, screenHeight, 0);
+	window.create("Pokemon Ghost", screenWidth, screenHeight, 0);
 
 	initShaders();
 	spriteBatch.init();
+
+	player.setTexture("Textures/charmander.png");
 }
 
 void MainGame::initShaders()
@@ -43,6 +51,7 @@ void MainGame::initShaders()
 	colorProgram.addAttribute("vertexUV");
 	colorProgram.linkShaders();
 }
+
 void MainGame::gameLoop()
 {
 	while (gameState != GameState::EXIT)
@@ -54,24 +63,11 @@ void MainGame::gameLoop()
 		time += 0.01;
 
 		camera.update();
-		for (int i = 0; i < fireBalls.size();)
-		{
-			if (fireBalls[i].update())
-			{
-				fireBalls[i] = fireBalls.back();
-				fireBalls.pop_back();
-			}
-			else
-			{
-				i++;
-			}
-		}
+		player.update();
 		draw();
 
 
 		fps = fpsLimiter.end();
-
-
 		printFps();
 	}
 }
@@ -123,11 +119,7 @@ void MainGame::processInput()
 		glm::vec2 mousePos = camera.getWorldPosition(inputManager.getMousePosition());
 		std::cout << mousePos.x << " " << mousePos.y << std::endl;
 
-		glm::vec2 playerPos(0);
-		glm::vec2 direction = mousePos - playerPos;
-		direction = glm::normalize(direction);
-
-		fireBalls.emplace_back(playerPos, direction, 8, 30);
+		player.addFireBall(mousePos);
 	}
 
 	if (inputManager.isKeyPressed(SDLK_ESCAPE))
@@ -152,9 +144,6 @@ void MainGame::draw()
 	GLint textureLocation = colorProgram.getUniformLocation("mySampler");
 	glUniform1i(textureLocation, 0);
 
-	//GLint timeLocation = colorProgram.getUniformLocation("time");
-	//glUniform1f(timeLocation, time);
-
 	// set camera projection matrix
 	GLint pLocation = colorProgram.getUniformLocation("P");
 	glm::mat4 cameraMatrix = camera.getCameraMatrix();
@@ -162,20 +151,7 @@ void MainGame::draw()
 
 	spriteBatch.begin();
 
-	glm::vec4 pos(0, 0, 100, 100);
-	glm::vec4 uv(0, 0, 1, 1);
-	static Palico::GLTexture tex = Palico::ResourceManager::getTexture("Textures/charmander.png");
-	Palico::Color color;
-	color.r = 255;
-	color.g = 255;
-	color.b = 255;
-	color.a = 255;
-
-	spriteBatch.draw(pos, uv, tex.id, 0, color);
-	for (int i = 0; i < fireBalls.size(); ++i)
-	{
-		fireBalls[i].draw(spriteBatch);
-	}
+	player.draw(spriteBatch);
 
 	spriteBatch.end();
 	spriteBatch.renderBatch();

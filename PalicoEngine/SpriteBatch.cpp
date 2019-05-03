@@ -10,6 +10,10 @@ namespace Palico
 
 	SpriteBatch::~SpriteBatch()
 	{
+		for (int i = 0; i < sprites.size(); ++i)
+		{
+			delete sprites[i];
+		}
 	}
 
 	void SpriteBatch::init()
@@ -17,42 +21,42 @@ namespace Palico
 		createVertexArray();
 	}
 
-	void SpriteBatch::begin(GlyphSortType sortType)
+	void SpriteBatch::begin(SpriteSortType sortType)
 	{
 		this->sortType = sortType;
 		this->renderBatches.clear();
-		this->glyphs.clear();
+		this->sprites.clear();
 	}
 
 	void SpriteBatch::end()
 	{
-		sortGlyphs();
+		sortSprites();
 		createRenderBatches();
 	}
 
 	void SpriteBatch::draw(const glm::vec4 & destRect, const glm::vec4 & uvRect, GLuint texture, float depth, const Color & color)
 	{
-		Glyph* newGlyph = new Glyph(); // todo delete glyph
-		newGlyph->texture = texture;
-		newGlyph->depth = depth;
+		Sprite* sprite = new Sprite();
+		sprite->texture = texture;
+		sprite->depth = depth;
 
-		newGlyph->topLeft.color = color;
-		newGlyph->topLeft.setPosition(destRect.x, destRect.y + destRect.w);
-		newGlyph->topLeft.setUV(uvRect.x, uvRect.y + uvRect.w);
+		sprite->topLeft.color = color;
+		sprite->topLeft.setPosition(destRect.x, destRect.y + destRect.w);
+		sprite->topLeft.setUV(uvRect.x, uvRect.y + uvRect.w);
 
-		newGlyph->bottomLeft.color = color;
-		newGlyph->bottomLeft.setPosition(destRect.x, destRect.y);
-		newGlyph->bottomLeft.setUV(uvRect.x, uvRect.y);
+		sprite->bottomLeft.color = color;
+		sprite->bottomLeft.setPosition(destRect.x, destRect.y);
+		sprite->bottomLeft.setUV(uvRect.x, uvRect.y);
 
-		newGlyph->bottomRight.color = color;
-		newGlyph->bottomRight.setPosition(destRect.x + destRect.z, destRect.y);
-		newGlyph->bottomRight.setUV(uvRect.x + uvRect.z, uvRect.y);
+		sprite->bottomRight.color = color;
+		sprite->bottomRight.setPosition(destRect.x + destRect.z, destRect.y);
+		sprite->bottomRight.setUV(uvRect.x + uvRect.z, uvRect.y);
 
-		newGlyph->topRight.color = color;
-		newGlyph->topRight.setPosition(destRect.x + destRect.z, destRect.y + destRect.w);
-		newGlyph->topRight.setUV(uvRect.x + uvRect.z, uvRect.y + uvRect.w);
+		sprite->topRight.color = color;
+		sprite->topRight.setPosition(destRect.x + destRect.z, destRect.y + destRect.w);
+		sprite->topRight.setUV(uvRect.x + uvRect.z, uvRect.y + uvRect.w);
 
-		glyphs.push_back(newGlyph);
+		sprites.push_back(sprite);
 	}
 
 	void SpriteBatch::renderBatch()
@@ -69,31 +73,31 @@ namespace Palico
 	void SpriteBatch::createRenderBatches()
 	{
 		std::vector<Vertex> vertices;
-		vertices.resize(glyphs.size() * 6);
+		vertices.resize(sprites.size() * 6);
 
-		if (glyphs.empty()) return;
+		if (sprites.empty()) return;
 
 		int currentVert = 0;
 		int offset = 0;
 
-		for (int currentGlyph = 0; currentGlyph < glyphs.size(); currentGlyph++)
+		for (int currentGlyph = 0; currentGlyph < sprites.size(); currentGlyph++)
 		{
-			if (currentGlyph == 0 || glyphs[currentGlyph]->texture != glyphs[currentGlyph - 1]->texture)
+			if (currentGlyph == 0 || sprites[currentGlyph]->texture != sprites[currentGlyph - 1]->texture)
 			{
 				// same as push_back but you do not need to create an object first
 				// just place the parameters of the constructor in it
-				this->renderBatches.emplace_back(offset, 6, glyphs[currentGlyph]->texture);
+				this->renderBatches.emplace_back(offset, 6, sprites[currentGlyph]->texture);
 			}
 			else
 			{
 				this->renderBatches.back().numVerts += 6;
 			}
-			vertices[currentVert++] = glyphs[currentGlyph]->topRight;
-			vertices[currentVert++] = glyphs[currentGlyph]->topLeft;
-			vertices[currentVert++] = glyphs[currentGlyph]->bottomLeft;
-			vertices[currentVert++] = glyphs[currentGlyph]->bottomLeft;
-			vertices[currentVert++] = glyphs[currentGlyph]->bottomRight;
-			vertices[currentVert++] = glyphs[currentGlyph]->topRight;
+			vertices[currentVert++] = sprites[currentGlyph]->topRight;
+			vertices[currentVert++] = sprites[currentGlyph]->topLeft;
+			vertices[currentVert++] = sprites[currentGlyph]->bottomLeft;
+			vertices[currentVert++] = sprites[currentGlyph]->bottomLeft;
+			vertices[currentVert++] = sprites[currentGlyph]->bottomRight;
+			vertices[currentVert++] = sprites[currentGlyph]->topRight;
 			offset += 6;
 		}
 
@@ -134,30 +138,30 @@ namespace Palico
 		glBindVertexArray(0);
 
 	}
-	void SpriteBatch::sortGlyphs()
+	void SpriteBatch::sortSprites()
 	{
 		switch (sortType)
 		{
-		case GlyphSortType::BACK_TO_FRONT:
-			std::stable_sort(glyphs.begin(), glyphs.end(), compareBackToFront);
+		case SpriteSortType::BACK_TO_FRONT:
+			std::stable_sort(sprites.begin(), sprites.end(), compareBackToFront);
 			break;
-		case GlyphSortType::FRONT_TO_BACK:
-			std::stable_sort(glyphs.begin(), glyphs.end(), compareFrontToBack);
+		case SpriteSortType::FRONT_TO_BACK:
+			std::stable_sort(sprites.begin(), sprites.end(), compareFrontToBack);
 			break;
-		case GlyphSortType::TEXTURE:
-			std::stable_sort(glyphs.begin(), glyphs.end(), compareTexture);
+		case SpriteSortType::TEXTURE:
+			std::stable_sort(sprites.begin(), sprites.end(), compareTexture);
 			break;
 		}
 	}
-	bool SpriteBatch::compareFrontToBack(Glyph * a, Glyph * b)
+	bool SpriteBatch::compareFrontToBack(Sprite * a, Sprite * b)
 	{
 		return (a->depth < b->depth);
 	}
-	bool SpriteBatch::compareBackToFront(Glyph * a, Glyph * b)
+	bool SpriteBatch::compareBackToFront(Sprite * a, Sprite * b)
 	{
 		return (a->depth > b->depth);
 	}
-	bool SpriteBatch::compareTexture(Glyph * a, Glyph * b)
+	bool SpriteBatch::compareTexture(Sprite * a, Sprite * b)
 	{
 		return (a->texture < b->texture);
 	}

@@ -16,11 +16,7 @@ FireBall::~FireBall()
 void FireBall::draw(Palico::SpriteBatch & spriteBatch)
 {
 	glm::vec4 uv(0, 0, 1, 1);
-	Palico::Color color;
-	color.r = 255;
-	color.g = 255;
-	color.b = 255;
-	color.a = 255;
+	Palico::Color color(255, 255, 255, 255);
 	static Palico::GLTexture texture = Palico::ResourceManager::getTexture("Textures/fireball.png");
 	glm::vec4 posSize = glm::vec4(position.x, position.y, 30, 30);
 
