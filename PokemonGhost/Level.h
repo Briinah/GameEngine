@@ -19,7 +19,7 @@ private:
 
 	std::vector<std::string> levelData;
 
-	int numMundane;
+	int numNormal;
 
 	Palico::SpriteBatch spriteBatch;
 	//Palico::ResourceManager* resourceManager; // change to not static

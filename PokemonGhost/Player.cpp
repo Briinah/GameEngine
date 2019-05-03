@@ -1,9 +1,11 @@
 #include "Player.h"
 
 
+#include <SDL\SDL.h>
 
-Player::Player() : position(0)
+Player::Player()
 {
+	speed = 4;
 }
 
 
@@ -13,8 +15,6 @@ Player::~Player()
 
 void Player::update()
 {
-	Normal::update();
-
 	for (int i = 0; i < fireBalls.size();)
 	{
 		if (fireBalls[i].update())
@@ -31,11 +31,33 @@ void Player::update()
 
 void Player::draw(Palico::SpriteBatch& spriteBatch)
 {
+	setTexture("Textures/charmander.png");
+
 	Normal::draw(spriteBatch);
 
 	for (int i = 0; i < fireBalls.size(); ++i)
 	{
 		fireBalls[i].draw(spriteBatch);
+	}
+}
+
+void Player::processInput(Palico::InputManager& inputManager)
+{
+	if (inputManager.isKeyDown(SDLK_w))
+	{
+		position.y += speed;
+	}
+	if (inputManager.isKeyDown(SDLK_s))
+	{
+		position.y -= speed;
+	}
+	if (inputManager.isKeyDown(SDLK_a))
+	{
+		position.x -= speed;
+	}
+	if (inputManager.isKeyDown(SDLK_d))
+	{
+		position.x += speed;
 	}
 }
 

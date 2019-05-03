@@ -27,20 +27,33 @@ MainGame::~MainGame()
 void MainGame::run()
 {
 	initSystems();
-	levels.push_back(new Level("Levels/0.txt"));
-	currentLevel = 0;
+	loadLevels();
+	setCurrentLevel(0);
+
 	gameLoop();
+}
+
+void MainGame::loadLevels()
+{
+	levels.push_back(new Level("Levels/0.txt"));
+}
+
+void MainGame::setCurrentLevel(int level)
+{
+	currentLevel = level;
+	player.setPosition(levels[currentLevel]->getPlayerStartPosition());
 }
 
 void MainGame::initSystems()
 {
 	Palico::init();
 	window.create("Pokemon Ghost", screenWidth, screenHeight, 0);
+	glClearColor(0.5f, 0.2f, 0.2f, 1.f);
+
+	camera.setScale(1.5f);
 
 	initShaders();
 	spriteBatch.init();
-
-	player.setTexture("Textures/charmander.png");
 }
 
 void MainGame::initShaders()
@@ -86,25 +99,11 @@ void MainGame::printFps()
 
 void MainGame::processInput()
 {
-	const float CAMERA_SPEED = 2.0f;
 	const float SCALE_SPEED = 0.2f;
 
-	if (inputManager.isKeyDown(SDLK_w))
-	{
-		camera.setPosition(camera.getPosition() + glm::vec2(0.0f, CAMERA_SPEED));
-	}
-	if (inputManager.isKeyDown(SDLK_s))
-	{
-		camera.setPosition(camera.getPosition() + glm::vec2(0.0f, -CAMERA_SPEED));
-	}
-	if (inputManager.isKeyDown(SDLK_a))
-	{
-		camera.setPosition(camera.getPosition() + glm::vec2(-CAMERA_SPEED, 0));
-	}
-	if (inputManager.isKeyDown(SDLK_d))
-	{
-		camera.setPosition(camera.getPosition() + glm::vec2(CAMERA_SPEED, 0));
-	}
+	player.processInput(inputManager);
+	camera.setPosition(player.getPosition());
+
 	if (inputManager.isKeyDown(SDLK_q))
 	{
 		camera.setScale(camera.getScale() + SCALE_SPEED);
@@ -152,6 +151,7 @@ void MainGame::draw()
 	spriteBatch.begin();
 
 	player.draw(spriteBatch);
+	levels[currentLevel]->draw();
 
 	spriteBatch.end();
 	spriteBatch.renderBatch();

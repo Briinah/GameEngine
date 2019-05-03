@@ -29,6 +29,8 @@ public:
 
 private:
 
+	void loadLevels();
+	void setCurrentLevel(int level);
 	void initSystems();
 	void initShaders();
 	void gameLoop();

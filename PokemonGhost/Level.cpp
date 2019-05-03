@@ -5,7 +5,7 @@
 #include <PalicoEngine/Errors.h>
 #include <PalicoEngine/ResourceManager.h>
 
-const int TILE_WIDTH = 32;
+const int TILE_WIDTH = 64;
 
 Level::Level(const std::string & filePath)
 {
@@ -18,22 +18,25 @@ Level::Level(const std::string & filePath)
 	}
 
 	std::string tmp;
-	file >> tmp >> numMundane;
+	file >> tmp >> numNormal;
 
 	while (std::getline(file, tmp))
 	{
 		levelData.push_back(tmp);
 	}
 
+	spriteBatch.init();
 	spriteBatch.begin();
 	glm::vec4 uvRect(0.f, 0.f, 1.f, 1.f);
+
+	int yMax = levelData.size();
 
 	for (int y = 0; y < levelData.size(); y++)
 	{
 		for (int x = 0; x < levelData[y].size(); x++)
 		{
 			char tile = levelData[y][x];
-			glm::vec4 destRect(x * TILE_WIDTH, y * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH);
+			glm::vec4 destRect(x * TILE_WIDTH, (yMax - y) * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH);
 			switch (tile)
 			{
 			case '.':
@@ -64,10 +67,10 @@ Level::Level(const std::string & filePath)
 				break;
 			case '@':
 				playerStartPosition.x = x * TILE_WIDTH;
-				playerStartPosition.y = y * TILE_WIDTH;
+				playerStartPosition.y = (yMax - y) * TILE_WIDTH;
 				break;
 			case 'Z':
-				ghostStartPositions.emplace_back(x * TILE_WIDTH, y * TILE_WIDTH);
+				ghostStartPositions.emplace_back(x * TILE_WIDTH, (yMax - y) * TILE_WIDTH);
 				break;
 			default:
 				std::printf("Unexpected symbol %c at (%d,%d)", tile, x, y);

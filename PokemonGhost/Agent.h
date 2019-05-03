@@ -31,8 +31,13 @@ public:
 		texture = Palico::ResourceManager::getTexture(texturePath);
 	}
 
+	void setSpeed(float speed)
+	{
+		this->speed = speed;
+	}
 
-private:
+
+protected:
 
 	glm::vec2 position;
 	glm::vec2 direction;
