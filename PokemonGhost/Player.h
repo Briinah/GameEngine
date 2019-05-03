@@ -8,7 +8,7 @@
 class Player : public Normal
 {
 public:
-	Player();
+	Player(int speed, std::string texture);
 	~Player();
 
 	void update() override;

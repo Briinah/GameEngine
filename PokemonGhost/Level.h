@@ -24,7 +24,7 @@ private:
 	Palico::SpriteBatch spriteBatch;
 	//Palico::ResourceManager* resourceManager; // change to not static
 
-	glm::ivec2 playerStartPosition;
+	glm::vec2 playerStartPosition;
 	std::vector<glm::ivec2> ghostStartPositions;
 };
 

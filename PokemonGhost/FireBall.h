@@ -18,4 +18,6 @@ private:
 	glm::vec2 direction;
 	float speed;
 	float lifeTime;
+
+	Palico::GLTexture texture;
 };

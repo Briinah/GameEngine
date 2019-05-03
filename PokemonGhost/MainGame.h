@@ -14,6 +14,7 @@
 #include <PalicoEngine\Timing.h>
 
 #include "Player.h"
+#include "Normal.h"
 #include "Level.h"
 
 enum class GameState { PLAY, EXIT };
@@ -36,6 +37,7 @@ private:
 	void gameLoop();
 	void printFps();
 	void processInput();
+	void update();
 	void draw();
 
 	Palico::Window window;
@@ -49,10 +51,10 @@ private:
 	Palico::InputManager inputManager;
 	Palico::FpsLimiter fpsLimiter;
 
-	Player player;
+	Player* player;
+	std::vector<Normal*> normals;
 
 	float fps;
-	float time;
 
 	std::vector<Level*> levels;
 

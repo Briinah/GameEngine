@@ -26,9 +26,9 @@ public:
 		this->direction = direction;
 	}
 
-	void setTexture(std::string texturePath)
+	void setTexture(std::string textureName)
 	{
-		texture = Palico::ResourceManager::getTexture(texturePath);
+		texture = Palico::ResourceManager::getTexture(textureName);
 	}
 
 	void setSpeed(float speed)

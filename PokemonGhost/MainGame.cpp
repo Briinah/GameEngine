@@ -7,10 +7,10 @@
 MainGame::MainGame() :
 	screenWidth(1024),
 	screenHeight(768),
-	time(0),
 	gameState(GameState::PLAY),
 	camera(screenWidth, screenHeight),
-	fpsLimiter(60)
+	fpsLimiter(60),
+	player(nullptr)
 {
 }
 
@@ -21,6 +21,8 @@ MainGame::~MainGame()
 	{
 		delete levels[i];
 	}
+
+	delete player;
 }
 
 
@@ -28,6 +30,8 @@ void MainGame::run()
 {
 	initSystems();
 	loadLevels();
+	player = new Player(4, "charmander");
+	normals.push_back(player);
 	setCurrentLevel(0);
 
 	gameLoop();
@@ -35,13 +39,13 @@ void MainGame::run()
 
 void MainGame::loadLevels()
 {
-	levels.push_back(new Level("Levels/0.txt"));
+	levels.push_back(new Level("0"));
 }
 
 void MainGame::setCurrentLevel(int level)
 {
 	currentLevel = level;
-	player.setPosition(levels[currentLevel]->getPlayerStartPosition());
+	player->setPosition(levels[currentLevel]->getPlayerStartPosition());
 }
 
 void MainGame::initSystems()
@@ -71,14 +75,9 @@ void MainGame::gameLoop()
 	{
 		fpsLimiter.beginFrame();
 
-		inputManager.update();
+		update();
 		processInput();
-		time += 0.01;
-
-		camera.update();
-		player.update();
 		draw();
-
 
 		fps = fpsLimiter.end();
 		printFps();
@@ -90,7 +89,7 @@ void MainGame::printFps()
 	// print once per 1000 frames
 	static int frameCount = 0;
 	frameCount++;
-	if (frameCount == 1000)
+	if (frameCount == 600)
 	{
 		std::cout << fps << std::endl;
 		frameCount = 0;
@@ -101,8 +100,8 @@ void MainGame::processInput()
 {
 	const float SCALE_SPEED = 0.2f;
 
-	player.processInput(inputManager);
-	camera.setPosition(player.getPosition());
+	player->processInput(inputManager);
+	camera.setPosition(player->getPosition());
 
 	if (inputManager.isKeyDown(SDLK_q))
 	{
@@ -116,15 +115,24 @@ void MainGame::processInput()
 	if (inputManager.isKeyPressed(SDL_BUTTON_LEFT))
 	{
 		glm::vec2 mousePos = camera.getWorldPosition(inputManager.getMousePosition());
-		std::cout << mousePos.x << " " << mousePos.y << std::endl;
-
-		player.addFireBall(mousePos);
+		player->addFireBall(mousePos);
 	}
 
 	if (inputManager.isKeyPressed(SDLK_ESCAPE))
 	{
 		std::cout << "exit game" << std::endl;
 		gameState = GameState::EXIT;
+	}
+}
+
+void MainGame::update()
+{
+	inputManager.update();
+	camera.update();
+
+	for (int i = 0; i < normals.size(); ++i)
+	{
+		normals[i]->update();
 	}
 }
 
@@ -150,7 +158,11 @@ void MainGame::draw()
 
 	spriteBatch.begin();
 
-	player.draw(spriteBatch);
+	for (int i = 0; i < normals.size(); ++i)
+	{
+		normals[i]->draw(spriteBatch);
+	}
+
 	levels[currentLevel]->draw();
 
 	spriteBatch.end();

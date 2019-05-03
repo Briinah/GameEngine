@@ -3,9 +3,10 @@
 
 #include <SDL\SDL.h>
 
-Player::Player()
+Player::Player(int speed, std::string texture)
 {
-	speed = 4;
+	this->speed = speed;
+	setTexture(texture);
 }
 
 
@@ -31,8 +32,6 @@ void Player::update()
 
 void Player::draw(Palico::SpriteBatch& spriteBatch)
 {
-	setTexture("Textures/charmander.png");
-
 	Normal::draw(spriteBatch);
 
 	for (int i = 0; i < fireBalls.size(); ++i)

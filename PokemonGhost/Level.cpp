@@ -7,9 +7,10 @@
 
 const int TILE_WIDTH = 64;
 
-Level::Level(const std::string & filePath)
+Level::Level(const std::string & name)
 {
 	std::ifstream file;
+	std::string filePath = "Levels/" + name + ".txt";
 	file.open(filePath);
 
 	if (file.fail())
@@ -43,25 +44,25 @@ Level::Level(const std::string & filePath)
 				break;
 			case 'L':
 				spriteBatch.draw(destRect, uvRect,
-					Palico::ResourceManager::getTexture("Textures/lightbrick.png").id,
+					Palico::ResourceManager::getTexture("lightbrick").id,
 					0.f,
 					Palico::Color(255, 255, 255, 255));
 				break;
 			case 'R':
 				spriteBatch.draw(destRect, uvRect, 
-					Palico::ResourceManager::getTexture("Textures/redbrick.png").id, 
+					Palico::ResourceManager::getTexture("redbrick").id, 
 					0.f, 
 					Palico::Color(255, 255, 255, 255));
 					break;
 			case 'G':
 				spriteBatch.draw(destRect, uvRect,
-					Palico::ResourceManager::getTexture("Textures/glass.png").id,
+					Palico::ResourceManager::getTexture("glass").id,
 					0.f,
 					Palico::Color(255, 255, 255, 255));
 				break;
 			case 'S':
 				spriteBatch.draw(destRect, uvRect,
-					Palico::ResourceManager::getTexture("Textures/rock.png").id,
+					Palico::ResourceManager::getTexture("rock").id,
 					0.f,
 					Palico::Color(255, 255, 255, 255));
 				break;
