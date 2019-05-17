@@ -11,7 +11,7 @@ public:
 	Player(int speed, std::string texture);
 	~Player();
 
-	void update() override;
+	void update(Level* level, std::vector<Normal*> normals, std::vector<Ghost*> ghosts) override;
 	void draw(Palico::SpriteBatch& spriteBatch) override;
 	void processInput(Palico::InputManager& inputManager);
 	void addFireBall(glm::vec2 mousePosition);

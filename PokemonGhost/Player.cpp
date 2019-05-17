@@ -14,7 +14,7 @@ Player::~Player()
 {
 }
 
-void Player::update()
+void Player::update(Level* level, std::vector<Normal*> normals, std::vector<Ghost*> ghosts)
 {
 	for (int i = 0; i < fireBalls.size();)
 	{
@@ -28,6 +28,8 @@ void Player::update()
 			i++;
 		}
 	}
+
+	handleCollision(level, normals, ghosts);
 }
 
 void Player::draw(Palico::SpriteBatch& spriteBatch)

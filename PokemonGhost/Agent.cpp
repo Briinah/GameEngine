@@ -2,6 +2,8 @@
 
 #include <PalicoEngine\ResourceManager.h>
 
+#include <algorithm>
+
 Palico::GLTexture Agent::texture;
 
 const int AGENT_WIDTH = 64;
@@ -14,9 +16,10 @@ Agent::~Agent()
 {
 }
 
-void Agent::update()
+void Agent::update(Level* level, std::vector<Normal*> normals, std::vector<Ghost*> ghosts)
 {
 	position += direction * speed;
+	handleCollision(level, normals, ghosts);
 }
 
 void Agent::draw(Palico::SpriteBatch& spriteBatch)
@@ -28,6 +31,40 @@ void Agent::draw(Palico::SpriteBatch& spriteBatch)
 	spriteBatch.draw(pos, uv, texture.id, 1, color);
 }
 
-void Agent::onCollision()
+void Agent::handleCollision(Level* level, std::vector<Normal*> normals, std::vector<Ghost*> ghosts)
 {
+	std::vector<glm::vec2> tiles = level->getCollidingTiles(position, AGENT_WIDTH);
+
+	const float AGENT_RADIUS = (float)AGENT_WIDTH / 2.0f;
+	const float TILE_RADIUS = (float)TILE_WIDTH / 2.0f;
+	const float MIN_DIST = AGENT_RADIUS + TILE_RADIUS;
+
+	for (int i = 0; i < tiles.size(); i++)
+	{
+		// AABB
+		glm::vec2 centerPlayer = position + glm::vec2(AGENT_RADIUS);
+		glm::vec2 distance = centerPlayer - tiles[i];
+
+		float xDepth = MIN_DIST - abs(distance.x);
+		float yDepth = MIN_DIST - abs(distance.y);
+
+		if (xDepth > 0 || yDepth > 0)
+		{
+			// colliding
+			if (std::max(xDepth, 0.0f) < std::max(yDepth, 0.0f))
+			{
+				if (distance.x < 0)
+					position.x -= xDepth;
+				else
+					position.x += xDepth;
+			}
+			else
+			{
+				if (distance.y < 0)
+					position.y -= yDepth;
+				else
+					position.y += yDepth;
+			}
+		}
+	}
 }

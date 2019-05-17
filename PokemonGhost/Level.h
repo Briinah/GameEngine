@@ -5,6 +5,8 @@
 
 #include <PalicoEngine/SpriteBatch.h>
 
+const int TILE_WIDTH = 64;
+
 class Level
 {
 public:
@@ -14,6 +16,8 @@ public:
 	void draw();
 
 	glm::ivec2 getPlayerStartPosition() { return playerStartPosition; }
+
+	std::vector<glm::vec2> getCollidingTiles(glm::vec2 position, int agentWidth);
 
 private:
 
@@ -26,5 +30,7 @@ private:
 
 	glm::vec2 playerStartPosition;
 	std::vector<glm::ivec2> ghostStartPositions;
+
+	void addTile(std::vector<glm::vec2>& tiles, int x, int y);
 };
 

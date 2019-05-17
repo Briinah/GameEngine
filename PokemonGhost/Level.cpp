@@ -5,8 +5,6 @@
 #include <PalicoEngine/Errors.h>
 #include <PalicoEngine/ResourceManager.h>
 
-const int TILE_WIDTH = 64;
-
 Level::Level(const std::string & name)
 {
 	std::ifstream file;
@@ -37,7 +35,7 @@ Level::Level(const std::string & name)
 		for (int x = 0; x < levelData[y].size(); x++)
 		{
 			char tile = levelData[y][x];
-			glm::vec4 destRect(x * TILE_WIDTH, (yMax - y) * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH);
+			glm::vec4 destRect(x * TILE_WIDTH, (/*yMax -*/ y) * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH);
 			switch (tile)
 			{
 			case '.':
@@ -68,13 +66,16 @@ Level::Level(const std::string & name)
 				break;
 			case '@':
 				playerStartPosition.x = x * TILE_WIDTH;
-				playerStartPosition.y = (yMax - y) * TILE_WIDTH;
+				playerStartPosition.y = (/*yMax -*/ y) * TILE_WIDTH;
+				levelData[y][x] = '.';
 				break;
 			case 'Z':
-				ghostStartPositions.emplace_back(x * TILE_WIDTH, (yMax - y) * TILE_WIDTH);
+				ghostStartPositions.emplace_back(x * TILE_WIDTH, (/*yMax -*/ y) * TILE_WIDTH);
+				levelData[y][x] = '.';
 				break;
 			default:
 				std::printf("Unexpected symbol %c at (%d,%d)", tile, x, y);
+				levelData[y][x] = '.';
 				break;
 			}
 		}
@@ -90,4 +91,27 @@ Level::~Level()
 void Level::draw()
 {
 	spriteBatch.renderBatch();
+}
+
+void Level::addTile(std::vector<glm::vec2>& tiles, int x, int y)
+{
+	glm::vec2 cornerPos = glm::vec2(
+		floor(x / (float)TILE_WIDTH),
+		floor(y / (float)TILE_WIDTH));
+
+	if (levelData[cornerPos.y][cornerPos.x] != '.')
+	{
+		tiles.push_back(cornerPos * (float)TILE_WIDTH + glm::vec2((float)TILE_WIDTH / 2.f));
+	}
+}
+
+std::vector<glm::vec2> Level::getCollidingTiles(glm::vec2 position, int agentWidth)
+{
+	std::vector<glm::vec2> tiles;
+	addTile(tiles, position.x, position.y);
+	addTile(tiles, position.x + agentWidth, position.y);
+	addTile(tiles, position.x, position.y + agentWidth);
+	addTile(tiles, position.x + agentWidth, position.y + agentWidth);
+
+	return tiles;
 }

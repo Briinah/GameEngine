@@ -53,6 +53,7 @@ private:
 
 	Player* player;
 	std::vector<Normal*> normals;
+	std::vector<Ghost*> ghosts;
 
 	float fps;
 

@@ -132,7 +132,7 @@ void MainGame::update()
 
 	for (int i = 0; i < normals.size(); ++i)
 	{
-		normals[i]->update();
+		normals[i]->update(levels[currentLevel], normals, ghosts);
 	}
 }
 

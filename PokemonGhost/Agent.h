@@ -5,16 +5,20 @@
 #include <PalicoEngine\ResourceManager.h>
 #include <string>
 
+#include <PokemonGhost\Level.h>
+
+// forward declaration, to prevent circular includes
+class Ghost;
+class Normal;
+
 class Agent
 {
 public:
 	Agent();
 	~Agent();
 
-	virtual void update();
+	virtual void update(Level* level, std::vector<Normal*> normals, std::vector<Ghost*> ghosts);
 	virtual void draw(Palico::SpriteBatch& spriteBatch);
-
-	virtual void onCollision();
 
 	void setPosition(glm::vec2 position)
 	{
@@ -45,5 +49,6 @@ protected:
 	float speed;
 	static Palico::GLTexture texture;
 
+	virtual void handleCollision(Level* level, std::vector<Normal*> normals, std::vector<Ghost*> ghosts);
 };
 
