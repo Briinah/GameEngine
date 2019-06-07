@@ -10,5 +10,9 @@ public:
 
 	void update(Level* level, std::vector<Normal*> normals, std::vector<Ghost*> ghosts) override;
 	void draw(Palico::SpriteBatch& spriteBatch) override;
+
+private:
+
+	float frames;
 };
 

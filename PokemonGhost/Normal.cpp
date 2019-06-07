@@ -3,7 +3,13 @@
 #include <random>
 #include <ctime>
 
-Normal::Normal(int speed, glm::vec2 position, std::string texture) 
+#define _USE_MATH_DEFINES
+#include <math.h>
+
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm\gtx\rotate_vector.hpp>
+
+Normal::Normal(int speed, glm::vec2 position, std::string texture) : frames(0)
 {
 	this->speed = speed;
 	this->position = position;
@@ -22,9 +28,25 @@ Normal::~Normal()
 
 void Normal::update(Level * level, std::vector<Normal*> normals, std::vector<Ghost*> ghosts)
 {
-	Agent::update(level, normals, ghosts);
+	position += direction * speed;
 
-	// move random
+	static std::mt19937 randomEngine(time(nullptr));
+	static std::uniform_real_distribution<float> randRotate(-40.0f * M_PI / 180, 40.0f * M_PI / 180);
+
+	if (frames == 20)
+	{
+		direction = glm::rotate(direction, randRotate(randomEngine));
+		frames = 0;
+	}
+	else
+	{
+		frames++;
+	}
+
+	if (handleCollision(level, normals, ghosts))
+	{
+		direction = glm::rotate(direction, randRotate(randomEngine));
+	}
 }
 
 void Normal::draw(Palico::SpriteBatch & spriteBatch)

@@ -28,13 +28,18 @@ void Agent::draw(Palico::SpriteBatch& spriteBatch)
 	spriteBatch.draw(pos, uv, texture.id, 1, color);
 }
 
-void Agent::handleCollision(Level* level, std::vector<Normal*> normals, std::vector<Ghost*> ghosts)
+bool Agent::handleCollision(Level* level, std::vector<Normal*> normals, std::vector<Ghost*> ghosts)
 {
 	std::vector<glm::vec2> tiles = level->getCollidingTiles(position, AGENT_WIDTH);
 
 	const float AGENT_RADIUS = (float)AGENT_WIDTH / 2.0f;
 	const float TILE_RADIUS = (float)TILE_WIDTH / 2.0f;
 	const float MIN_DIST = AGENT_RADIUS + TILE_RADIUS;
+
+	if (tiles.size() <= 0)
+	{
+		return false;
+	}
 
 	for (int i = 0; i < tiles.size(); i++)
 	{
@@ -63,5 +68,7 @@ void Agent::handleCollision(Level* level, std::vector<Normal*> normals, std::vec
 					position.y += yDepth;
 			}
 		}
+
+		return true;
 	}
 }

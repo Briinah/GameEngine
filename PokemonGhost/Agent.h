@@ -50,6 +50,6 @@ protected:
 	float speed;
 	Palico::GLTexture texture;
 
-	virtual void handleCollision(Level* level, std::vector<Normal*> normals, std::vector<Ghost*> ghosts);
+	virtual bool handleCollision(Level* level, std::vector<Normal*> normals, std::vector<Ghost*> ghosts);
 };
 

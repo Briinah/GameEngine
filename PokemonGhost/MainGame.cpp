@@ -51,11 +51,10 @@ void MainGame::setCurrentLevel(int level)
 	currentLevel = level;
 	player->setPosition(levels[currentLevel]->getPlayerStartPosition());
 
-
 	std::mt19937 randomEngine;
 	randomEngine.seed(time(nullptr));
-	std::uniform_int_distribution<int> randomPosX(1, levels[currentLevel]->getWidth() - 2);
-	std::uniform_int_distribution<int> randomPosY(1, levels[currentLevel]->getHeight() - 2);
+	std::uniform_int_distribution<int> randomPosX(2, levels[currentLevel]->getWidth() - 2);
+	std::uniform_int_distribution<int> randomPosY(2, levels[currentLevel]->getHeight() - 2);
 
 	// generate normals
 	for (int i = 0; i < levels[currentLevel]->getNumNormals(); i++)
