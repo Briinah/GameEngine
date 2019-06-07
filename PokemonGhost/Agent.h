@@ -24,6 +24,7 @@ public:
 	{
 		this->position = position;
 	}
+	void setPosition(float x, float y) { position.x = x; position.y = y; }
 
 	void setDirection(glm::vec2 direction)
 	{
@@ -47,7 +48,7 @@ protected:
 	glm::vec2 direction;
 
 	float speed;
-	static Palico::GLTexture texture;
+	Palico::GLTexture texture;
 
 	virtual void handleCollision(Level* level, std::vector<Normal*> normals, std::vector<Ghost*> ghosts);
 };

@@ -17,6 +17,10 @@ public:
 
 	glm::ivec2 getPlayerStartPosition() { return playerStartPosition; }
 
+	int getNumNormals() { return numNormal; }
+	int getWidth() const { return levelData[1].size(); }
+	int getHeight() const { return levelData.size(); }
+
 	std::vector<glm::vec2> getCollidingTiles(glm::vec2 position, int agentWidth);
 
 private:

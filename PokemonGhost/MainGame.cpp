@@ -1,8 +1,12 @@
+#include "MainGame.h"
+
 #include <iostream>
 #include <string>
+#include <random>
+#include <ctime>
+
 #include <PalicoEngine\ResourceManager.h>
 
-#include "MainGame.h"
 
 MainGame::MainGame() :
 	screenWidth(1024),
@@ -30,7 +34,7 @@ void MainGame::run()
 {
 	initSystems();
 	loadLevels();
-	player = new Player(4, "charmander");
+	player = new Player(4, glm::vec2(0), "charmander");
 	normals.push_back(player);
 	setCurrentLevel(0);
 
@@ -46,6 +50,20 @@ void MainGame::setCurrentLevel(int level)
 {
 	currentLevel = level;
 	player->setPosition(levels[currentLevel]->getPlayerStartPosition());
+
+
+	std::mt19937 randomEngine;
+	randomEngine.seed(time(nullptr));
+	std::uniform_int_distribution<int> randomPosX(1, levels[currentLevel]->getWidth() - 2);
+	std::uniform_int_distribution<int> randomPosY(1, levels[currentLevel]->getHeight() - 2);
+
+	// generate normals
+	for (int i = 0; i < levels[currentLevel]->getNumNormals(); i++)
+	{
+		glm::vec2 position(randomPosX(randomEngine) * TILE_WIDTH, randomPosY(randomEngine) * TILE_WIDTH);
+
+		normals.push_back(new Normal(1, position, "clefairy"));
+	}
 }
 
 void MainGame::initSystems()

@@ -1,4 +1,4 @@
-Mundane: 100
+Normals: 100
 RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
 R....................................................................R
 R..@.................................................................R

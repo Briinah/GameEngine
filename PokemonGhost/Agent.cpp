@@ -3,9 +3,6 @@
 #include <PalicoEngine\ResourceManager.h>
 
 #include <algorithm>
-
-Palico::GLTexture Agent::texture;
-
 const int AGENT_WIDTH = 64;
 
 Agent::Agent() : position(0, 0), direction(0, 0), speed(0)

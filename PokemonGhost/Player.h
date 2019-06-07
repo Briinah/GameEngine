@@ -8,7 +8,7 @@
 class Player : public Normal
 {
 public:
-	Player(int speed, std::string texture);
+	Player(int speed, glm::vec2 position, std::string texture);
 	~Player();
 
 	void update(Level* level, std::vector<Normal*> normals, std::vector<Ghost*> ghosts) override;
@@ -17,8 +17,6 @@ public:
 	void addFireBall(glm::vec2 mousePosition);
 
 	glm::vec2 getPosition() { return position; }
-	void setPosition(glm::vec2 position) { this->position = position; }
-	void setPosition(float x, float y) { position.x = x; position.y = y; }
 
 private:
 
