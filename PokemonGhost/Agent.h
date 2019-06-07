@@ -19,6 +19,7 @@ public:
 
 	virtual void update(Level* level, std::vector<Normal*> normals, std::vector<Ghost*> ghosts);
 	virtual void draw(Palico::SpriteBatch& spriteBatch);
+	bool collideWithAgent(Agent* other);
 
 	void setPosition(glm::vec2 position)
 	{
@@ -51,5 +52,6 @@ protected:
 	Palico::GLTexture texture;
 
 	virtual bool handleCollision(Level* level, std::vector<Normal*> normals, std::vector<Ghost*> ghosts);
+
 };
 

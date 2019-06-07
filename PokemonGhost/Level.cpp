@@ -98,6 +98,9 @@ void Level::addTile(std::vector<glm::vec2>& tiles, int x, int y)
 	glm::vec2 cornerPos = glm::vec2(
 		floor(x / (float)TILE_WIDTH),
 		floor(y / (float)TILE_WIDTH));
+
+	if (cornerPos.x < 0 || cornerPos.y < 0)
+		return;
 	
 	if (levelData[cornerPos.y][cornerPos.x] != '.')
 	{

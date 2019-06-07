@@ -3,7 +3,8 @@
 #include <PalicoEngine\ResourceManager.h>
 
 #include <algorithm>
-const int AGENT_WIDTH = 64;
+const float AGENT_WIDTH = 64.0f;
+const float AGENT_RADIUS = AGENT_WIDTH / 2.0f;
 
 Agent::Agent() : position(0, 0), direction(0, 0), speed(0)
 {
@@ -28,11 +29,32 @@ void Agent::draw(Palico::SpriteBatch& spriteBatch)
 	spriteBatch.draw(pos, uv, texture.id, 1, color);
 }
 
+bool Agent::collideWithAgent(Agent * other)
+{
+	const float MIN_DISTANCE = AGENT_RADIUS * 2.0f;
+
+	glm::vec2 centerPosA = position + glm::vec2(AGENT_RADIUS);
+	glm::vec2 centerPosB = other->position + glm::vec2(AGENT_RADIUS);
+
+	glm::vec2 distanceVector = centerPosA - centerPosB;
+	float distance = glm::length(distanceVector);
+
+	float collisionDepth = MIN_DISTANCE - distance;
+	if (collisionDepth > 0)
+	{
+		glm::vec2 collisionDepthVector = glm::normalize(distanceVector) * collisionDepth;
+		position += collisionDepthVector / 2.0f;
+		other->position -= collisionDepthVector / 2.0f;
+		return true;
+	}
+
+	return false;
+}
+
 bool Agent::handleCollision(Level* level, std::vector<Normal*> normals, std::vector<Ghost*> ghosts)
 {
 	std::vector<glm::vec2> tiles = level->getCollidingTiles(position, AGENT_WIDTH);
 
-	const float AGENT_RADIUS = (float)AGENT_WIDTH / 2.0f;
 	const float TILE_RADIUS = (float)TILE_WIDTH / 2.0f;
 	const float MIN_DIST = AGENT_RADIUS + TILE_RADIUS;
 
@@ -72,3 +94,4 @@ bool Agent::handleCollision(Level* level, std::vector<Normal*> normals, std::vec
 		return true;
 	}
 }
+

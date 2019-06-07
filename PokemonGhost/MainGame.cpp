@@ -150,6 +150,15 @@ void MainGame::update()
 	for (int i = 0; i < normals.size(); ++i)
 	{
 		normals[i]->update(levels[currentLevel], normals, ghosts);
+
+	}
+
+	for (int i = 0; i < normals.size(); ++i)
+	{
+		for (int j = i + 1; j < normals.size(); j++)
+		{
+			normals[i]->collideWithAgent(normals[j]);
+		}
 	}
 }
 
