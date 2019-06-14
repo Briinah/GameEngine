@@ -19,6 +19,7 @@ namespace Palico
 		SDL_Event evnt;
 
 		keyPressed = 0;
+		scrollAmount = 0;
 
 		while (SDL_PollEvent(&evnt))
 		{
@@ -38,6 +39,9 @@ namespace Palico
 				break;
 			case SDL_MOUSEBUTTONUP:
 				releaseKey(evnt.button.button);
+				break;
+			case SDL_MOUSEWHEEL:
+				scrollAmount = evnt.wheel.y;
 				break;
 			}
 		}
@@ -70,6 +74,11 @@ namespace Palico
 	bool InputManager::isKeyPressed(unsigned int keyID)
 	{
 		return keyPressed == keyID;
+	}
+
+	int InputManager::isMouseScrolling()
+	{
+		return scrollAmount;
 	}
 
 	void InputManager::setMousePosition(float x, float y)

@@ -120,11 +120,11 @@ void MainGame::processInput()
 	player->processInput(inputManager);
 	camera.setPosition(player->getPosition());
 
-	if (inputManager.isKeyDown(SDLK_q))
+	if (inputManager.isMouseScrolling() < 0)
 	{
 		camera.setScale(camera.getScale() + SCALE_SPEED);
 	}
-	if (inputManager.isKeyDown(SDLK_e))
+	if (inputManager.isMouseScrolling() > 0)
 	{
 		camera.setScale(camera.getScale() - SCALE_SPEED);
 	}
