@@ -56,12 +56,19 @@ void MainGame::setCurrentLevel(int level)
 	std::uniform_int_distribution<int> randomPosX(2, levels[currentLevel]->getWidth() - 2);
 	std::uniform_int_distribution<int> randomPosY(2, levels[currentLevel]->getHeight() - 2);
 
-	// generate normals
+	// generate normal creatures
 	for (int i = 0; i < levels[currentLevel]->getNumNormals(); i++)
 	{
 		glm::vec2 position(randomPosX(randomEngine) * TILE_WIDTH, randomPosY(randomEngine) * TILE_WIDTH);
 
-		normals.push_back(new Normal(1, position, "clefairy"));
+		normals.push_back(new Normal(1.0f, position, "clefairy"));
+	}
+
+	// generate ghosts
+	const std::vector<glm::vec2>& ghostPositions = levels[currentLevel]->getGhostStartPositions();	
+	for (int i = 0; i < ghostPositions.size(); i++)
+	{
+		ghosts.push_back(new Ghost(1.3f, ghostPositions[i], "gengar"));
 	}
 }
 
@@ -146,11 +153,18 @@ void MainGame::update()
 {
 	inputManager.update();
 	camera.update();
+	updateAgents();
+}
 
+void MainGame::updateAgents()
+{
 	for (int i = 0; i < normals.size(); ++i)
 	{
 		normals[i]->update(levels[currentLevel], normals, ghosts);
-
+	}
+	for (int i = 0; i < ghosts.size(); ++i)
+	{
+		ghosts[i]->update(levels[currentLevel], normals, ghosts);
 	}
 
 	for (int i = 0; i < normals.size(); ++i)
@@ -160,6 +174,31 @@ void MainGame::update()
 			normals[i]->collideWithAgent(normals[j]);
 		}
 	}
+
+	for (int i = 0; i < ghosts.size(); ++i)
+	{
+		for (int j = i + 1; j < ghosts.size(); j++)
+		{
+			ghosts[i]->collideWithAgent(ghosts[j]);
+		}
+
+		for (int j = i + 1; j < normals.size(); j++)
+		{
+			if (ghosts[i]->collideWithAgent(normals[j]))
+			{
+				changeNormalToGhost(j);
+			}
+		}
+	}
+}
+
+void MainGame::changeNormalToGhost(int j)
+{
+	ghosts.push_back(new Ghost(1.3f, normals[j]->getPosition(), "gengar"));
+
+	delete normals[j];
+	normals[j] = normals.back();
+	normals.pop_back();
 }
 
 void MainGame::draw()
@@ -187,6 +226,10 @@ void MainGame::draw()
 	for (int i = 0; i < normals.size(); ++i)
 	{
 		normals[i]->draw(spriteBatch);
+	}
+	for (int i = 0; i < ghosts.size(); ++i)
+	{
+		ghosts[i]->draw(spriteBatch);
 	}
 
 	levels[currentLevel]->draw();

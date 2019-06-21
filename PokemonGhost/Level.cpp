@@ -35,7 +35,7 @@ Level::Level(const std::string & name)
 		for (int x = 0; x < levelData[y].size(); x++)
 		{
 			char tile = levelData[y][x];
-			glm::vec4 destRect(x * TILE_WIDTH, (/*yMax -*/ y) * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH);
+			glm::vec4 destRect(x * TILE_WIDTH, y * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH);
 			switch (tile)
 			{
 			case '.':
@@ -66,11 +66,11 @@ Level::Level(const std::string & name)
 				break;
 			case '@':
 				playerStartPosition.x = x * TILE_WIDTH;
-				playerStartPosition.y = (/*yMax -*/ y) * TILE_WIDTH;
+				playerStartPosition.y = y * TILE_WIDTH;
 				levelData[y][x] = '.';
 				break;
 			case 'Z':
-				ghostStartPositions.emplace_back(x * TILE_WIDTH, (/*yMax -*/ y) * TILE_WIDTH);
+				ghostStartPositions.emplace_back(x * TILE_WIDTH, y * TILE_WIDTH);
 				levelData[y][x] = '.';
 				break;
 			default:
@@ -102,7 +102,7 @@ void Level::addTile(std::vector<glm::vec2>& tiles, int x, int y)
 	if (cornerPos.x < 0 || cornerPos.y < 0)
 		return;
 	
-	if (levelData[cornerPos.y][cornerPos.x] != '.')
+	if (levelData[cornerPos.y][cornerPos.x] != '.') // todo: fix out of range problem
 	{
 		tiles.push_back(cornerPos * (float)TILE_WIDTH + glm::vec2((float)TILE_WIDTH / 2.f));
 	}

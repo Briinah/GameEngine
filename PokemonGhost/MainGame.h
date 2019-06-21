@@ -15,6 +15,7 @@
 
 #include "Player.h"
 #include "Normal.h"
+#include "Ghost.h"
 #include "Level.h"
 
 enum class GameState { PLAY, EXIT };
@@ -38,6 +39,8 @@ private:
 	void printFps();
 	void processInput();
 	void update();
+	void updateAgents();
+	void changeNormalToGhost(int j);
 	void draw();
 
 	Palico::Window window;
@@ -52,8 +55,8 @@ private:
 	Palico::FpsLimiter fpsLimiter;
 
 	Player* player;
-	std::vector<Normal*> normals;
 	std::vector<Ghost*> ghosts;
+	std::vector<Normal*> normals;
 
 	float fps;
 

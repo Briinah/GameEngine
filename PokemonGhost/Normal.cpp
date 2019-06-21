@@ -9,7 +9,7 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm\gtx\rotate_vector.hpp>
 
-Normal::Normal(int speed, glm::vec2 position, std::string texture) : frames(0)
+Normal::Normal(float speed, glm::vec2 position, std::string texture) : frames(0)
 {
 	this->speed = speed;
 	this->position = position;

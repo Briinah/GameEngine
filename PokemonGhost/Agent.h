@@ -26,6 +26,7 @@ public:
 		this->position = position;
 	}
 	void setPosition(float x, float y) { position.x = x; position.y = y; }
+	glm::vec2 getPosition() { return position; }
 
 	void setDirection(glm::vec2 direction)
 	{
