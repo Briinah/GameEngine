@@ -17,7 +17,7 @@ void Player::update(Level* level, std::vector<Friendly*> friendlies, std::vector
 	handleLevelCollision(level);
 	for (int i = 0; i < fireBalls.size();)
 	{
-		if (fireBalls[i].update(ghosts))
+		if (fireBalls[i].update(ghosts, level))
 		{
 			fireBalls[i] = fireBalls.back();
 			fireBalls.pop_back();

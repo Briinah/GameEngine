@@ -6,6 +6,9 @@
 
 #include "Ghost.h"
 
+const float FIRE_WIDTH = 30;
+const float FIRE_RADIUS = FIRE_WIDTH / 2.0f;
+
 class FireBall
 {
 public:
@@ -13,7 +16,7 @@ public:
 	~FireBall();
 
 	void draw(Palico::SpriteBatch& spriteBatch);
-	bool update(std::vector<Ghost*> ghosts);
+	bool update(std::vector<Ghost*> ghosts, Level* level);
 
 private:
 	glm::vec2 position;
@@ -24,4 +27,5 @@ private:
 	Palico::GLTexture texture;
 
 	bool collideWithGhosts(std::vector<Ghost*> ghosts);
+	bool collideWithLevel(Level* level);
 };

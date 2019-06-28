@@ -5,7 +5,8 @@
 
 #include <PalicoEngine/SpriteBatch.h>
 
-const int TILE_WIDTH = 64;
+const float TILE_WIDTH = 64;
+const float TILE_RADIUS = TILE_WIDTH / 2.0f;
 
 class Level
 {
@@ -14,6 +15,7 @@ public:
 	~Level();
 
 	void draw();
+	glm::vec2 checkTileCollision(glm::vec2 tile, glm::vec2 currentPosition, float radius);
 
 	glm::vec2 getPlayerStartPosition() { return playerStartPosition; }
 

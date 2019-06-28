@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <algorithm>
 #include <PalicoEngine/Errors.h>
 #include <PalicoEngine/ResourceManager.h>
 
@@ -93,6 +94,40 @@ void Level::draw()
 	spriteBatch.renderBatch();
 }
 
+glm::vec2 Level::checkTileCollision(glm::vec2 tile, glm::vec2 currentPosition, float radius)
+{
+	const float MIN_DIST = radius + TILE_RADIUS;
+
+	glm::vec2 newPosition = currentPosition;
+	// AABB
+	glm::vec2 centerPlayer = currentPosition + radius;
+	glm::vec2 distance = centerPlayer - tile;
+
+	float xDepth = MIN_DIST - abs(distance.x);
+	float yDepth = MIN_DIST - abs(distance.y);
+
+	if (xDepth > 0 || yDepth > 0)
+	{
+		// colliding
+		if (std::max(xDepth, 0.0f) < std::max(yDepth, 0.0f))
+		{
+			if (distance.x < 0)
+				newPosition.x -= xDepth;
+			else
+				newPosition.x += xDepth;
+		}
+		else
+		{
+			if (distance.y < 0)
+				newPosition.y -= yDepth;
+			else
+				newPosition.y += yDepth;
+		}
+	}
+
+	return newPosition;
+}
+
 void Level::addTile(std::vector<glm::vec2>& tiles, int x, int y)
 {
 	glm::vec2 cornerPos = glm::vec2(
@@ -118,3 +153,5 @@ std::vector<glm::vec2> Level::getCollidingTiles(glm::vec2 position, int agentWid
 
 	return tiles;
 }
+
+

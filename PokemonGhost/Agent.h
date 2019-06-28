@@ -11,6 +11,9 @@
 class Ghost;
 class Friendly;
 
+const float AGENT_WIDTH = 64.0f;
+const float AGENT_RADIUS = AGENT_WIDTH / 2.0f;
+
 class Agent
 {
 public:
