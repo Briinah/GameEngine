@@ -17,7 +17,7 @@ public:
 
 	glm::vec2 getPlayerStartPosition() { return playerStartPosition; }
 
-	int getNumNormals() { return numNormal; }
+	int getNumFriendlies() { return numFriendlies; }
 	int getWidth() const { return levelData[1].size(); }
 	int getHeight() const { return levelData.size(); }
 
@@ -28,7 +28,7 @@ private:
 
 	std::vector<std::string> levelData;
 
-	int numNormal;
+	int numFriendlies;
 
 	Palico::SpriteBatch spriteBatch;
 

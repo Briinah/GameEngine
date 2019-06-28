@@ -31,7 +31,7 @@ void Ghost::draw(Palico::SpriteBatch & spriteBatch)
 	Agent::draw(spriteBatch);
 }
 
-void Ghost::update(Level * level, std::vector<Normal*> normals, std::vector<Ghost*> ghosts)
+void Ghost::update(Level * level, std::vector<Friendly*> friendlies, std::vector<Ghost*> ghosts)
 {
 	position += direction * speed;
 
@@ -48,8 +48,13 @@ void Ghost::update(Level * level, std::vector<Normal*> normals, std::vector<Ghos
 		frames++;
 	}
 
-	if (handleCollision(level, normals, ghosts))
+	if (handleCollision(level, friendlies, ghosts))
 	{
 		direction = glm::rotate(direction, randRotate(randomEngine));
 	}
+}
+
+Friendly* Ghost::getNearestFriendly(std::vector<Friendly*> friendlies)
+{
+	Friendly* closestFriendly = nullptr;
 }

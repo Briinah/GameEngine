@@ -9,10 +9,12 @@ public:
 	~Ghost();
 
 	void draw(Palico::SpriteBatch& spriteBatch) override;
-	void update(Level* level, std::vector<Normal*> normals, std::vector<Ghost*> ghosts) override;
+	void update(Level* level, std::vector<Friendly*> friendlies, std::vector<Ghost*> ghosts) override;
 
 private:
 
 	float frames;
+
+	Friendly* getNearestFriendly(std::vector<Friendly*> friendlies);
 };
 

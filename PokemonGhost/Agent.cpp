@@ -14,10 +14,10 @@ Agent::~Agent()
 {
 }
 
-void Agent::update(Level* level, std::vector<Normal*> normals, std::vector<Ghost*> ghosts)
+void Agent::update(Level* level, std::vector<Friendly*> friendlies, std::vector<Ghost*> ghosts)
 {
 	position += direction * speed;
-	handleCollision(level, normals, ghosts);
+	handleCollision(level, friendlies, ghosts);
 }
 
 void Agent::draw(Palico::SpriteBatch& spriteBatch)
@@ -51,7 +51,7 @@ bool Agent::collideWithAgent(Agent * other)
 	return false;
 }
 
-bool Agent::handleCollision(Level* level, std::vector<Normal*> normals, std::vector<Ghost*> ghosts)
+bool Agent::handleCollision(Level* level, std::vector<Friendly*> friendlies, std::vector<Ghost*> ghosts)
 {
 	std::vector<glm::vec2> tiles = level->getCollidingTiles(position, AGENT_WIDTH);
 

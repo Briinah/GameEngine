@@ -2,16 +2,16 @@
 
 #include <PalicoEngine/SpriteBatch.h>
 #include <PalicoEngine/InputManager.h>
-#include "Normal.h"
+#include "Friendly.h"
 #include "FireBall.h"
 
-class Player : public Normal
+class Player : public Friendly
 {
 public:
 	Player(int speed, glm::vec2 position, std::string texture);
 	~Player();
 
-	void update(Level* level, std::vector<Normal*> normals, std::vector<Ghost*> ghosts) override;
+	void update(Level* level, std::vector<Friendly*> friendlies, std::vector<Ghost*> ghosts) override;
 	void draw(Palico::SpriteBatch& spriteBatch) override;
 	void processInput(Palico::InputManager& inputManager);
 	void addFireBall(glm::vec2 mousePosition);

@@ -1,4 +1,4 @@
-#include "Normal.h"
+#include "Friendly.h"
 
 #include <random>
 #include <ctime>
@@ -9,7 +9,7 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm\gtx\rotate_vector.hpp>
 
-Normal::Normal(float speed, glm::vec2 position, std::string texture) : frames(0)
+Friendly::Friendly(float speed, glm::vec2 position, std::string texture) : frames(0)
 {
 	this->speed = speed;
 	this->position = position;
@@ -22,11 +22,11 @@ Normal::Normal(float speed, glm::vec2 position, std::string texture) : frames(0)
 	setDirection(glm::normalize(glm::vec2(distribution(randomEngine), distribution(randomEngine))));
 }
 
-Normal::~Normal()
+Friendly::~Friendly()
 {
 }
 
-void Normal::update(Level * level, std::vector<Normal*> normals, std::vector<Ghost*> ghosts)
+void Friendly::update(Level * level, std::vector<Friendly*> friendlies, std::vector<Ghost*> ghosts)
 {
 	position += direction * speed;
 
@@ -43,13 +43,13 @@ void Normal::update(Level * level, std::vector<Normal*> normals, std::vector<Gho
 		frames++;
 	}
 
-	if (handleCollision(level, normals, ghosts))
+	if (handleCollision(level, friendlies, ghosts))
 	{
 		direction = glm::rotate(direction, randRotate(randomEngine));
 	}
 }
 
-void Normal::draw(Palico::SpriteBatch & spriteBatch)
+void Friendly::draw(Palico::SpriteBatch & spriteBatch)
 {
 	Agent::draw(spriteBatch);
 }

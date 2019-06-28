@@ -35,7 +35,7 @@ void MainGame::run()
 	initSystems();
 	loadLevels();
 	player = new Player(4, glm::vec2(0), "charmander");
-	normals.push_back(player);
+	friendlies.push_back(player);
 	setCurrentLevel(0);
 
 	gameLoop();
@@ -56,12 +56,12 @@ void MainGame::setCurrentLevel(int level)
 	std::uniform_int_distribution<int> randomPosX(2, levels[currentLevel]->getWidth() - 2);
 	std::uniform_int_distribution<int> randomPosY(2, levels[currentLevel]->getHeight() - 2);
 
-	// generate normal creatures
-	for (int i = 0; i < levels[currentLevel]->getNumNormals(); i++)
+	// generate friendly creatures
+	for (int i = 0; i < levels[currentLevel]->getNumFriendlies(); i++)
 	{
 		glm::vec2 position(randomPosX(randomEngine) * TILE_WIDTH, randomPosY(randomEngine) * TILE_WIDTH);
 
-		normals.push_back(new Normal(1.0f, position, "clefairy"));
+		friendlies.push_back(new Friendly(1.0f, position, "clefairy"));
 	}
 
 	// generate ghosts
@@ -158,20 +158,20 @@ void MainGame::update()
 
 void MainGame::updateAgents()
 {
-	for (int i = 0; i < normals.size(); ++i)
+	for (int i = 0; i < friendlies.size(); ++i)
 	{
-		normals[i]->update(levels[currentLevel], normals, ghosts);
+		friendlies[i]->update(levels[currentLevel], friendlies, ghosts);
 	}
 	for (int i = 0; i < ghosts.size(); ++i)
 	{
-		ghosts[i]->update(levels[currentLevel], normals, ghosts);
+		ghosts[i]->update(levels[currentLevel], friendlies, ghosts);
 	}
 
-	for (int i = 0; i < normals.size(); ++i)
+	for (int i = 0; i < friendlies.size(); ++i)
 	{
-		for (int j = i + 1; j < normals.size(); j++)
+		for (int j = i + 1; j < friendlies.size(); j++)
 		{
-			normals[i]->collideWithAgent(normals[j]);
+			friendlies[i]->collideWithAgent(friendlies[j]);
 		}
 	}
 
@@ -182,23 +182,26 @@ void MainGame::updateAgents()
 			ghosts[i]->collideWithAgent(ghosts[j]);
 		}
 
-		for (int j = i + 1; j < normals.size(); j++)
+		// skip the player
+		for (int j = 1; j < friendlies.size(); j++)
 		{
-			if (ghosts[i]->collideWithAgent(normals[j]))
-			{
-				changeNormalToGhost(j);
+			if (ghosts[i]->collideWithAgent(friendlies[j]))
+			{ 
+				changeFriendlyToGhost(j);
 			}
 		}
+
+		// todo: check collision with player
 	}
 }
 
-void MainGame::changeNormalToGhost(int j)
+void MainGame::changeFriendlyToGhost(int j)
 {
-	ghosts.push_back(new Ghost(1.3f, normals[j]->getPosition(), "gengar"));
+	ghosts.push_back(new Ghost(1.3f, friendlies[j]->getPosition(), "gengar"));
 
-	delete normals[j];
-	normals[j] = normals.back();
-	normals.pop_back();
+	delete friendlies[j];
+	friendlies[j] = friendlies.back();
+	friendlies.pop_back();
 }
 
 void MainGame::draw()
@@ -223,9 +226,9 @@ void MainGame::draw()
 
 	spriteBatch.begin();
 
-	for (int i = 0; i < normals.size(); ++i)
+	for (int i = 0; i < friendlies.size(); ++i)
 	{
-		normals[i]->draw(spriteBatch);
+		friendlies[i]->draw(spriteBatch);
 	}
 	for (int i = 0; i < ghosts.size(); ++i)
 	{

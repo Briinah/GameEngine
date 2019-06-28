@@ -14,7 +14,7 @@
 #include <PalicoEngine\Timing.h>
 
 #include "Player.h"
-#include "Normal.h"
+#include "Friendly.h"
 #include "Ghost.h"
 #include "Level.h"
 
@@ -40,7 +40,7 @@ private:
 	void processInput();
 	void update();
 	void updateAgents();
-	void changeNormalToGhost(int j);
+	void changeFriendlyToGhost(int j);
 	void draw();
 
 	Palico::Window window;
@@ -56,7 +56,7 @@ private:
 
 	Player* player;
 	std::vector<Ghost*> ghosts;
-	std::vector<Normal*> normals;
+	std::vector<Friendly*> friendlies;
 
 	float fps;
 

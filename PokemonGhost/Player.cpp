@@ -3,7 +3,7 @@
 
 #include <SDL\SDL.h>
 
-Player::Player(int speed, glm::vec2 position, std::string texture) : Normal(speed, position, texture)
+Player::Player(int speed, glm::vec2 position, std::string texture) : Friendly(speed, position, texture)
 {
 }
 
@@ -12,9 +12,9 @@ Player::~Player()
 {
 }
 
-void Player::update(Level* level, std::vector<Normal*> normals, std::vector<Ghost*> ghosts)
+void Player::update(Level* level, std::vector<Friendly*> friendlies, std::vector<Ghost*> ghosts)
 {
-	handleCollision(level, normals, ghosts);
+	handleCollision(level, friendlies, ghosts);
 	for (int i = 0; i < fireBalls.size();)
 	{
 		if (fireBalls[i].update())
@@ -32,7 +32,7 @@ void Player::update(Level* level, std::vector<Normal*> normals, std::vector<Ghos
 
 void Player::draw(Palico::SpriteBatch& spriteBatch)
 {
-	Normal::draw(spriteBatch);
+	Friendly::draw(spriteBatch);
 
 	for (int i = 0; i < fireBalls.size(); ++i)
 	{

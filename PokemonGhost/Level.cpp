@@ -17,7 +17,7 @@ Level::Level(const std::string & name)
 	}
 
 	std::string tmp;
-	file >> tmp >> numNormal;
+	file >> tmp >> numFriendlies;
 
 	while (std::getline(file, tmp))
 	{
