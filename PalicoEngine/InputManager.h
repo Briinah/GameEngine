@@ -11,6 +11,8 @@ namespace Palico
 		InputManager();
 		~InputManager();
 
+		bool quit;
+
 		void update();
 
 		bool isKeyDown(unsigned int keyID);

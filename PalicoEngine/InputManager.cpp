@@ -5,7 +5,7 @@
 namespace Palico
 {
 
-	InputManager::InputManager() : mousePosition(0)
+	InputManager::InputManager() : mousePosition(0), quit(false)
 	{
 	}
 
@@ -25,6 +25,9 @@ namespace Palico
 		{
 			switch (evnt.type)
 			{
+			case SDL_QUIT:
+				quit = true;
+				break;
 			case SDL_MOUSEMOTION:
 				setMousePosition(evnt.motion.x, evnt.motion.y);
 				break;

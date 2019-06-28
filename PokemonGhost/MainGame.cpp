@@ -135,14 +135,14 @@ void MainGame::processInput()
 	{
 		camera.setScale(camera.getScale() - SCALE_SPEED);
 	}
-
+	
 	if (inputManager.isKeyPressed(SDL_BUTTON_LEFT))
 	{
 		glm::vec2 mousePos = camera.getWorldPosition(inputManager.getMousePosition());
 		player->addFireBall(mousePos);
 	}
 
-	if (inputManager.isKeyPressed(SDLK_ESCAPE))
+	if (inputManager.isKeyPressed(SDLK_ESCAPE) || inputManager.quit)
 	{
 		std::cout << "exit game" << std::endl;
 		gameState = GameState::EXIT;

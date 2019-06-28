@@ -2,6 +2,7 @@
 
 
 #include <SDL\SDL.h>
+#include <iostream>
 
 Player::Player(int speed, glm::vec2 position, std::string texture) : Friendly(speed, position, texture)
 {

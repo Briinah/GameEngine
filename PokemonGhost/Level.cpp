@@ -106,7 +106,7 @@ glm::vec2 Level::checkTileCollision(glm::vec2 tile, glm::vec2 currentPosition, f
 	float xDepth = MIN_DIST - abs(distance.x);
 	float yDepth = MIN_DIST - abs(distance.y);
 
-	if (xDepth > 0 || yDepth > 0)
+	if (xDepth > 0 && yDepth > 0)
 	{
 		// colliding
 		if (std::max(xDepth, 0.0f) < std::max(yDepth, 0.0f))
