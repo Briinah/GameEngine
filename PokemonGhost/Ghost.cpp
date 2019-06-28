@@ -2,6 +2,7 @@
 
 #include <random>
 #include <ctime>
+#include <limits>
 
 #define _USE_MATH_DEFINES
 #include <math.h>
@@ -9,7 +10,9 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm\gtx\rotate_vector.hpp>
 
-Ghost::Ghost(float speed, glm::vec2 position, std::string texture) : frames(0)
+#include "Friendly.h"
+
+Ghost::Ghost(float speed, glm::vec2 position, std::string texture) : frames(0), health(10)
 {
 	this->speed = speed;
 	this->position = position;
@@ -48,13 +51,36 @@ void Ghost::update(Level * level, std::vector<Friendly*> friendlies, std::vector
 		frames++;
 	}
 
-	if (handleCollision(level, friendlies, ghosts))
+	Friendly* target = getNearestFriendly(friendlies);
+	if (target != nullptr)
 	{
-		direction = glm::rotate(direction, randRotate(randomEngine));
+		direction = glm::normalize(target->getPosition() - position);
 	}
+
+	handleLevelCollision(level);
+}
+
+void Ghost::removeHealth(float amount)
+{
+	health -= amount;
 }
 
 Friendly* Ghost::getNearestFriendly(std::vector<Friendly*> friendlies)
 {
 	Friendly* closestFriendly = nullptr;
+	float smallestDistance = std::numeric_limits<float>::max();
+
+	for (int i = 0; i < friendlies.size(); i++)
+	{
+		glm::vec2 distanceVec = friendlies[i]->getPosition() - position;
+		float distance = glm::length(distanceVec);
+
+		if (distance < smallestDistance)
+		{
+			smallestDistance = distance;
+			closestFriendly = friendlies[i];
+		}
+	}
+
+	return closestFriendly;
 }

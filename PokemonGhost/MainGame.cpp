@@ -192,6 +192,14 @@ void MainGame::updateAgents()
 		}
 
 		// todo: check collision with player
+
+
+		if (!ghosts[i]->isAlive())
+		{
+			delete ghosts[i];
+			ghosts[i] = ghosts.back();
+			ghosts.pop_back();
+		}
 	}
 }
 

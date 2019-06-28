@@ -43,7 +43,7 @@ void Friendly::update(Level * level, std::vector<Friendly*> friendlies, std::vec
 		frames++;
 	}
 
-	if (handleCollision(level, friendlies, ghosts))
+	if (handleLevelCollision(level))
 	{
 		direction = glm::rotate(direction, randRotate(randomEngine));
 	}

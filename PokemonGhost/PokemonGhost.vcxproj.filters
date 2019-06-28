@@ -36,7 +36,7 @@
     <ClCompile Include="Level.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Normal.cpp">
+    <ClCompile Include="Friendly.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -59,7 +59,7 @@
     <ClInclude Include="Level.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Normal.h">
+    <ClInclude Include="Friendly.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

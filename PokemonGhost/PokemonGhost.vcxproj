@@ -129,7 +129,7 @@
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MainGame.cpp" />
-    <ClCompile Include="Normal.cpp" />
+    <ClCompile Include="Friendly.cpp" />
     <ClCompile Include="Player.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -138,7 +138,7 @@
     <ClInclude Include="Ghost.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="MainGame.h" />
-    <ClInclude Include="Normal.h" />
+    <ClInclude Include="Friendly.h" />
     <ClInclude Include="Player.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

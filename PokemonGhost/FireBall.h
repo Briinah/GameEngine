@@ -4,6 +4,8 @@
 #include <PalicoEngine\SpriteBatch.h>
 #include <PalicoEngine\GLTexture.h>
 
+#include "Ghost.h"
+
 class FireBall
 {
 public:
@@ -11,7 +13,7 @@ public:
 	~FireBall();
 
 	void draw(Palico::SpriteBatch& spriteBatch);
-	bool update();
+	bool update(std::vector<Ghost*> ghosts);
 
 private:
 	glm::vec2 position;
@@ -20,4 +22,6 @@ private:
 	float lifeTime;
 
 	Palico::GLTexture texture;
+
+	bool collideWithGhosts(std::vector<Ghost*> ghosts);
 };

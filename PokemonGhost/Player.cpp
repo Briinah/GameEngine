@@ -14,10 +14,10 @@ Player::~Player()
 
 void Player::update(Level* level, std::vector<Friendly*> friendlies, std::vector<Ghost*> ghosts)
 {
-	handleCollision(level, friendlies, ghosts);
+	handleLevelCollision(level);
 	for (int i = 0; i < fireBalls.size();)
 	{
-		if (fireBalls[i].update())
+		if (fireBalls[i].update(ghosts))
 		{
 			fireBalls[i] = fireBalls.back();
 			fireBalls.pop_back();

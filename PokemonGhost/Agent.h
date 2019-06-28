@@ -21,12 +21,16 @@ public:
 	virtual void draw(Palico::SpriteBatch& spriteBatch);
 	bool collideWithAgent(Agent* other);
 
+	glm::vec2 getPosition() { return position; }
 	void setPosition(glm::vec2 position)
 	{
 		this->position = position;
 	}
-	void setPosition(float x, float y) { position.x = x; position.y = y; }
-	glm::vec2 getPosition() { return position; }
+	void setPosition(float x, float y) 
+	{ 
+		position.x = x; 
+		position.y = y; 
+	}
 
 	void setDirection(glm::vec2 direction)
 	{
@@ -52,7 +56,6 @@ protected:
 	float speed;
 	Palico::GLTexture texture;
 
-	virtual bool handleCollision(Level* level, std::vector<Friendly*> friendlies, std::vector<Ghost*> ghosts);
-
+	virtual bool handleLevelCollision(Level* level);
 };
 
