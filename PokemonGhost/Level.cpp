@@ -134,11 +134,15 @@ void Level::addTile(std::vector<glm::vec2>& tiles, int x, int y)
 		floor(x / (float)TILE_WIDTH),
 		floor(y / (float)TILE_WIDTH));
 
-	if (cornerPos.x < 0 || cornerPos.x > levelData[1].size() || 
-		cornerPos.y < 0 || cornerPos.y > levelData.size())
+	// collision out of bounds
+	if (cornerPos.x < 0 || cornerPos.x >= levelData[1].size() ||
+		cornerPos.y < 0 || cornerPos.y >= levelData.size())
+	{
+		std::cout << "Level::addTile -> collision out of bounds!" << std::endl;
 		return;
+	}
 	
-	if (levelData[cornerPos.y][cornerPos.x] != '.') // todo: fix out of range problem
+	if (levelData[cornerPos.y][cornerPos.x] != '.')
 	{
 		tiles.push_back(cornerPos * (float)TILE_WIDTH + glm::vec2((float)TILE_WIDTH / 2.f));
 	}

@@ -23,7 +23,7 @@ void Agent::draw(Palico::SpriteBatch& spriteBatch)
 {
 	glm::vec4 pos(position.x, position.y, AGENT_WIDTH, AGENT_WIDTH);
 	glm::vec4 uv(0, 0, 1, 1);
-	Palico::Color color(255,255,255,255);
+	Palico::Color color(255, 255, 255, 255);
 
 	spriteBatch.draw(pos, uv, texture.id, 1, color);
 }
@@ -63,8 +63,8 @@ bool Agent::handleLevelCollision(Level* level)
 	for (int i = 0; i < tiles.size(); i++)
 	{
 		position = level->checkTileCollision(tiles[i], position, AGENT_RADIUS);
-		return true;
 	}
+	return true;
 }
 
 
