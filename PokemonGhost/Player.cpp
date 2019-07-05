@@ -13,12 +13,12 @@ Player::~Player()
 {
 }
 
-void Player::update(Level* level, std::vector<Friendly*> friendlies, std::vector<Ghost*> ghosts)
+void Player::update(float deltaTime, Level* level, std::vector<Friendly*> friendlies, std::vector<Ghost*> ghosts)
 {
 	handleLevelCollision(level);
 	for (int i = 0; i < fireBalls.size();)
 	{
-		if (fireBalls[i].update(ghosts, level))
+		if (fireBalls[i].update(deltaTime, ghosts, level))
 		{
 			fireBalls[i] = fireBalls.back();
 			fireBalls.pop_back();
@@ -41,23 +41,23 @@ void Player::draw(Palico::SpriteBatch& spriteBatch)
 	}
 }
 
-void Player::processInput(Palico::InputManager& inputManager)
+void Player::processInput(Palico::InputManager& inputManager, float deltaTime)
 {
 	if (inputManager.isKeyDown(SDLK_w))
 	{
-		position.y += speed;
+		position.y += speed * deltaTime;
 	}
 	if (inputManager.isKeyDown(SDLK_s))
 	{
-		position.y -= speed;
+		position.y -= speed * deltaTime;
 	}
 	if (inputManager.isKeyDown(SDLK_a))
 	{
-		position.x -= speed;
+		position.x -= speed * deltaTime;
 	}
 	if (inputManager.isKeyDown(SDLK_d))
 	{
-		position.x += speed;
+		position.x += speed * deltaTime;
 	}
 }
 

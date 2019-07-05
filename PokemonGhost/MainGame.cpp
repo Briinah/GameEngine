@@ -14,6 +14,7 @@ MainGame::MainGame() :
 	gameState(GameState::PLAY),
 	camera(screenWidth, screenHeight),
 	fpsLimiter(60),
+	gameTime(&fpsLimiter),
 	player(nullptr)
 {
 }
@@ -124,7 +125,7 @@ void MainGame::processInput()
 {
 	const float SCALE_SPEED = 0.2f;
 
-	player->processInput(inputManager);
+	player->processInput(inputManager, gameTime.deltaTime());
 	camera.setPosition(player->getPosition());
 
 	if (inputManager.isMouseScrolling() < 0)
@@ -160,11 +161,11 @@ void MainGame::updateAgents()
 {
 	for (int i = 0; i < friendlies.size(); ++i)
 	{
-		friendlies[i]->update(levels[currentLevel], friendlies, ghosts);
+		friendlies[i]->update(gameTime.deltaTime(), levels[currentLevel], friendlies, ghosts);
 	}
 	for (int i = 0; i < ghosts.size(); ++i)
 	{
-		ghosts[i]->update(levels[currentLevel], friendlies, ghosts);
+		ghosts[i]->update(gameTime.deltaTime(), levels[currentLevel], friendlies, ghosts);
 	}
 
 	for (int i = 0; i < friendlies.size(); ++i)

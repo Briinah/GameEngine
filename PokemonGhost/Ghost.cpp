@@ -34,9 +34,9 @@ void Ghost::draw(Palico::SpriteBatch & spriteBatch)
 	Agent::draw(spriteBatch);
 }
 
-void Ghost::update(Level * level, std::vector<Friendly*> friendlies, std::vector<Ghost*> ghosts)
+void Ghost::update(float deltaTime, Level * level, std::vector<Friendly*> friendlies, std::vector<Ghost*> ghosts)
 {
-	position += direction * speed;
+	position += direction * speed * deltaTime;
 
 	static std::mt19937 randomEngine(time(nullptr));
 	static std::uniform_real_distribution<float> randRotate(-40.0f * M_PI / 180, 40.0f * M_PI / 180);

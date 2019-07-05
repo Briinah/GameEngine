@@ -13,9 +13,9 @@ Agent::~Agent()
 {
 }
 
-void Agent::update(Level* level, std::vector<Friendly*> friendlies, std::vector<Ghost*> ghosts)
+void Agent::update(float deltaTime, Level* level, std::vector<Friendly*> friendlies, std::vector<Ghost*> ghosts)
 {
-	position += direction * speed;
+	position += direction * speed * deltaTime;
 	handleLevelCollision(level);
 }
 

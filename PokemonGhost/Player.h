@@ -11,9 +11,9 @@ public:
 	Player(int speed, glm::vec2 position, std::string texture);
 	~Player();
 
-	void update(Level* level, std::vector<Friendly*> friendlies, std::vector<Ghost*> ghosts) override;
+	void update(float deltaTime, Level* level, std::vector<Friendly*> friendlies, std::vector<Ghost*> ghosts) override;
 	void draw(Palico::SpriteBatch& spriteBatch) override;
-	void processInput(Palico::InputManager& inputManager);
+	void processInput(Palico::InputManager& inputManager, float deltaTime);
 	void addFireBall(glm::vec2 mousePosition);
 
 	glm::vec2 getPosition() { return position; }

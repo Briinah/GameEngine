@@ -16,7 +16,7 @@ public:
 	~FireBall();
 
 	void draw(Palico::SpriteBatch& spriteBatch);
-	bool update(std::vector<Ghost*> ghosts, Level* level);
+	bool update(float deltaTime, std::vector<Ghost*> ghosts, Level* level);
 
 private:
 	glm::vec2 position;

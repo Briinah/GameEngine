@@ -9,7 +9,7 @@ public:
 	~Ghost();
 
 	void draw(Palico::SpriteBatch& spriteBatch) override;
-	void update(Level* level, std::vector<Friendly*> friendlies, std::vector<Ghost*> ghosts) override;
+	void update(float deltaTime, Level* level, std::vector<Friendly*> friendlies, std::vector<Ghost*> ghosts) override;
 	void removeHealth(float amount);
 
 	bool isAlive() 

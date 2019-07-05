@@ -134,7 +134,8 @@ void Level::addTile(std::vector<glm::vec2>& tiles, int x, int y)
 		floor(x / (float)TILE_WIDTH),
 		floor(y / (float)TILE_WIDTH));
 
-	if (cornerPos.x < 0 || cornerPos.y < 0)
+	if (cornerPos.x < 0 || cornerPos.x > levelData[1].size() || 
+		cornerPos.y < 0 || cornerPos.y > levelData.size())
 		return;
 	
 	if (levelData[cornerPos.y][cornerPos.x] != '.') // todo: fix out of range problem

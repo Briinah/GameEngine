@@ -20,7 +20,7 @@ public:
 	Agent();
 	~Agent();
 
-	virtual void update(Level* level, std::vector<Friendly*> friendlies, std::vector<Ghost*> ghosts);
+	virtual void update(float deltaTime, Level* level, std::vector<Friendly*> friendlies, std::vector<Ghost*> ghosts);
 	virtual void draw(Palico::SpriteBatch& spriteBatch);
 	bool collideWithAgent(Agent* other);
 

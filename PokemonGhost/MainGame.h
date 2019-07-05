@@ -53,6 +53,7 @@ private:
 	Palico::SpriteBatch spriteBatch;
 	Palico::InputManager inputManager;
 	Palico::FpsLimiter fpsLimiter;
+	Palico::Time gameTime;
 
 	Player* player;
 	std::vector<Ghost*> ghosts;

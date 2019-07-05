@@ -26,9 +26,9 @@ Friendly::~Friendly()
 {
 }
 
-void Friendly::update(Level * level, std::vector<Friendly*> friendlies, std::vector<Ghost*> ghosts)
+void Friendly::update(float deltaTime, Level * level, std::vector<Friendly*> friendlies, std::vector<Ghost*> ghosts)
 {
-	position += direction * speed;
+	position += direction * speed * deltaTime;
 
 	static std::mt19937 randomEngine(time(nullptr));
 	static std::uniform_real_distribution<float> randRotate(-40.0f * M_PI / 180, 40.0f * M_PI / 180);

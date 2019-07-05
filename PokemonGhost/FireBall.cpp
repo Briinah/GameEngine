@@ -23,9 +23,9 @@ void FireBall::draw(Palico::SpriteBatch & spriteBatch)
 	spriteBatch.draw(posSize, uv, texture.id, 0, color);
 }
 
-bool FireBall::update(std::vector<Ghost*> ghosts, Level* level)
+bool FireBall::update(float deltaTime, std::vector<Ghost*> ghosts, Level* level)
 {
-	position += direction * speed;
+	position += direction * speed * deltaTime;
 	lifeTime--;
 	
 	return (lifeTime == 0) || collideWithGhosts(ghosts) || collideWithLevel(level);

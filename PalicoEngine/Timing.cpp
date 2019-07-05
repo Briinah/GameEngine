@@ -71,4 +71,11 @@ namespace Palico
 			fps = 60;
 		}
 	}
+
+	Time::Time(FpsLimiter* fpsLimiter) : fpsLimiter(fpsLimiter)
+	{
+	}
+	Time::~Time()
+	{
+	}
 }

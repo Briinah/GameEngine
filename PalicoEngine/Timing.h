@@ -1,4 +1,7 @@
 #pragma once
+
+#include <iostream>
+
 namespace Palico
 {
 	class FpsLimiter
@@ -11,6 +14,9 @@ namespace Palico
 
 		float end(); // will return fps
 
+		float getTargetFps() { return maxFps; }
+		float getFps() { return fps; }
+
 	private:
 		void calculateFps();
 
@@ -18,5 +24,20 @@ namespace Palico
 		float fps;
 		float maxFps;
 		unsigned int startTicks;
+	};
+
+	class Time
+	{
+	public:
+		Time(FpsLimiter* fpsLimiter);
+		~Time();
+
+		float deltaTime()
+		{
+			return fpsLimiter->getTargetFps() / fpsLimiter->getFps();
+		}
+
+	private:
+		FpsLimiter* fpsLimiter;
 	};
 }
