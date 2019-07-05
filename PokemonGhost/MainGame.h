@@ -37,9 +37,9 @@ private:
 	void initShaders();
 	void gameLoop();
 	void printFps();
-	void processInput();
-	void update();
-	void updateAgents();
+	void processInput(float deltaTime);
+	void update(float deltaTime);
+	void updateAgents(float deltaTime);
 	void changeFriendlyToGhost(int j);
 	void draw();
 

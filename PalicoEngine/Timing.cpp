@@ -72,10 +72,20 @@ namespace Palico
 		}
 	}
 
-	Time::Time(FpsLimiter* fpsLimiter) : fpsLimiter(fpsLimiter)
+	Time::Time(FpsLimiter* fpsLimiter) : fpsLimiter(fpsLimiter), prevTicks(SDL_GetTicks()), totalDeltaTime(0)
 	{
 	}
+
 	Time::~Time()
 	{
+	}
+
+	float Time::getTotalDeltaTime()
+	{
+		float newTicks = SDL_GetTicks();
+		float frameTime = newTicks - prevTicks;
+		prevTicks = newTicks;
+		totalDeltaTime = frameTime / DESIRED_FRAMERATE;
+		return totalDeltaTime;
 	}
 }

@@ -32,12 +32,16 @@ namespace Palico
 		Time(FpsLimiter* fpsLimiter);
 		~Time();
 
-		float deltaTime()
-		{
-			return fpsLimiter->getTargetFps() / fpsLimiter->getFps();
-		}
+		const float MAX_DELTA_TIME = 1.0f;
+
+		float getTotalDeltaTime();
 
 	private:
 		FpsLimiter* fpsLimiter;
+
+		const float MS_PER_SECOND = 1000;
+		const float DESIRED_FRAMERATE = MS_PER_SECOND / fpsLimiter->getTargetFps();
+		float prevTicks;
+		float totalDeltaTime;
 	};
 }

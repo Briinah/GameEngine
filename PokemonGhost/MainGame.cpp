@@ -66,7 +66,7 @@ void MainGame::setCurrentLevel(int level)
 	}
 
 	// generate ghosts
-	const std::vector<glm::vec2>& ghostPositions = levels[currentLevel]->getGhostStartPositions();	
+	const std::vector<glm::vec2>& ghostPositions = levels[currentLevel]->getGhostStartPositions();
 	for (int i = 0; i < ghostPositions.size(); i++)
 	{
 		ghosts.push_back(new Ghost(1.3f, ghostPositions[i], "gengar"));
@@ -96,12 +96,20 @@ void MainGame::initShaders()
 
 void MainGame::gameLoop()
 {
+	const float MAX_PHYSICS_STEPS = 5;
 	while (gameState != GameState::EXIT)
 	{
 		fpsLimiter.beginFrame();
-
-		update();
-		processInput();
+		float totalDeltaTime = gameTime.getTotalDeltaTime();
+		int i = 0;
+		while (totalDeltaTime > 0.0f && i < MAX_PHYSICS_STEPS)
+		{
+			float deltaTime = std::min(totalDeltaTime, gameTime.MAX_DELTA_TIME);
+			update(deltaTime);
+			processInput(deltaTime);
+			i++;
+			totalDeltaTime -= deltaTime;
+		}
 		draw();
 
 		fps = fpsLimiter.end();
@@ -121,22 +129,22 @@ void MainGame::printFps()
 	}
 }
 
-void MainGame::processInput()
+void MainGame::processInput(float deltaTime)
 {
 	const float SCALE_SPEED = 0.2f;
 
-	player->processInput(inputManager, gameTime.deltaTime());
+	player->processInput(inputManager, deltaTime);
 	camera.setPosition(player->getPosition());
 
 	if (inputManager.isMouseScrolling() < 0)
 	{
-		camera.setScale(camera.getScale() + SCALE_SPEED);
+		camera.setScale(camera.getScale() + SCALE_SPEED * deltaTime);
 	}
 	if (inputManager.isMouseScrolling() > 0)
 	{
-		camera.setScale(camera.getScale() - SCALE_SPEED);
+		camera.setScale(camera.getScale() - SCALE_SPEED * deltaTime);
 	}
-	
+
 	if (inputManager.isKeyPressed(SDL_BUTTON_LEFT))
 	{
 		glm::vec2 mousePos = camera.getWorldPosition(inputManager.getMousePosition());
@@ -150,22 +158,22 @@ void MainGame::processInput()
 	}
 }
 
-void MainGame::update()
+void MainGame::update(float deltaTime)
 {
 	inputManager.update();
 	camera.update();
-	updateAgents();
+	updateAgents(deltaTime);
 }
 
-void MainGame::updateAgents()
+void MainGame::updateAgents(float deltaTime)
 {
 	for (int i = 0; i < friendlies.size(); ++i)
 	{
-		friendlies[i]->update(gameTime.deltaTime(), levels[currentLevel], friendlies, ghosts);
+		friendlies[i]->update(deltaTime, levels[currentLevel], friendlies, ghosts);
 	}
 	for (int i = 0; i < ghosts.size(); ++i)
 	{
-		ghosts[i]->update(gameTime.deltaTime(), levels[currentLevel], friendlies, ghosts);
+		ghosts[i]->update(deltaTime, levels[currentLevel], friendlies, ghosts);
 	}
 
 	for (int i = 0; i < friendlies.size(); ++i)
@@ -187,7 +195,7 @@ void MainGame::updateAgents()
 		for (int j = 1; j < friendlies.size(); j++)
 		{
 			if (ghosts[i]->collideWithAgent(friendlies[j]))
-			{ 
+			{
 				changeFriendlyToGhost(j);
 			}
 		}
