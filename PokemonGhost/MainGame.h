@@ -38,7 +38,7 @@ private:
 	void gameLoop();
 	void printFps();
 	void processInput(float deltaTime);
-	void update(float deltaTime);
+	void update();
 	void updateAgents(float deltaTime);
 	void changeFriendlyToGhost(int j);
 	void draw();

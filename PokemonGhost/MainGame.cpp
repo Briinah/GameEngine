@@ -96,20 +96,10 @@ void MainGame::initShaders()
 
 void MainGame::gameLoop()
 {
-	const float MAX_PHYSICS_STEPS = 5;
 	while (gameState != GameState::EXIT)
 	{
 		fpsLimiter.beginFrame();
-		float totalDeltaTime = gameTime.getTotalDeltaTime();
-		int i = 0;
-		while (totalDeltaTime > 0.0f && i < MAX_PHYSICS_STEPS)
-		{
-			float deltaTime = std::min(totalDeltaTime, gameTime.MAX_DELTA_TIME);
-			update(deltaTime);
-			processInput(deltaTime);
-			i++;
-			totalDeltaTime -= deltaTime;
-		}
+		update();
 		draw();
 
 		fps = fpsLimiter.end();
@@ -133,16 +123,16 @@ void MainGame::processInput(float deltaTime)
 {
 	const float SCALE_SPEED = 0.2f;
 
-	player->processInput(inputManager, deltaTime);
+	//player->processInput(inputManager, deltaTime);
 	camera.setPosition(player->getPosition());
 
 	if (inputManager.isMouseScrolling() < 0)
 	{
-		camera.setScale(camera.getScale() + SCALE_SPEED * deltaTime);
+		camera.setScale(camera.getScale() + SCALE_SPEED);
 	}
 	if (inputManager.isMouseScrolling() > 0)
 	{
-		camera.setScale(camera.getScale() - SCALE_SPEED * deltaTime);
+		camera.setScale(camera.getScale() - SCALE_SPEED);
 	}
 
 	if (inputManager.isKeyPressed(SDL_BUTTON_LEFT))
@@ -158,11 +148,24 @@ void MainGame::processInput(float deltaTime)
 	}
 }
 
-void MainGame::update(float deltaTime)
+void MainGame::update()
 {
+
+	const float MAX_PHYSICS_STEPS = 5;
+	float totalDeltaTime = gameTime.getTotalDeltaTime();
+	int i = 0;
+	while (totalDeltaTime > 0.0f && i < MAX_PHYSICS_STEPS)
+	{
+		float deltaTime = std::min(totalDeltaTime, gameTime.MAX_DELTA_TIME);
+		//processInput(deltaTime);
+		player->processInput(inputManager, deltaTime);
+		updateAgents(deltaTime);
+		i++;
+		totalDeltaTime -= deltaTime;
+	}
+	processInput(1);
 	inputManager.update();
 	camera.update();
-	updateAgents(deltaTime);
 }
 
 void MainGame::updateAgents(float deltaTime)

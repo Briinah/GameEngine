@@ -131,20 +131,20 @@ glm::vec2 Level::checkTileCollision(glm::vec2 tile, glm::vec2 currentPosition, f
 void Level::addTile(std::vector<glm::vec2>& tiles, int x, int y)
 {
 	glm::vec2 cornerPos = glm::vec2(
-		floor(x / (float)TILE_WIDTH),
-		floor(y / (float)TILE_WIDTH));
+		floor(x / TILE_WIDTH),
+		floor(y / TILE_WIDTH));
 
 	// collision out of bounds
 	if (cornerPos.x < 0 || cornerPos.x >= levelData[1].size() ||
 		cornerPos.y < 0 || cornerPos.y >= levelData.size())
 	{
-		std::cout << "Level::addTile -> collision out of bounds!" << std::endl;
+		std::cout << "Level::addTile -> collision out of bounds! x: " << cornerPos.x << " " << cornerPos.y << std::endl;
 		return;
 	}
 	
 	if (levelData[cornerPos.y][cornerPos.x] != '.')
 	{
-		tiles.push_back(cornerPos * (float)TILE_WIDTH + glm::vec2((float)TILE_WIDTH / 2.f));
+		tiles.push_back(cornerPos * TILE_WIDTH + glm::vec2(TILE_WIDTH / 2.f));
 	}
 }
 
