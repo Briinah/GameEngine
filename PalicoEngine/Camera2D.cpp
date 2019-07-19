@@ -31,8 +31,8 @@ namespace Palico
 			cameraMatrix = glm::translate(orthoMatrix, translate);
 
 			// camera scale
-			glm::vec3 scale(scale, scale, 0.0f);
-			cameraMatrix = glm::scale(glm::mat4(1), scale) * cameraMatrix;
+			glm::vec3 newScale(scale, scale, 0.0f);
+			cameraMatrix = glm::scale(glm::mat4(1), newScale) * cameraMatrix;
 
 			needsUpdate = false;
 		}

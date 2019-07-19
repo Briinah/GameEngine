@@ -25,9 +25,9 @@ public:
 	bool collideWithAgent(Agent* other);
 
 	glm::vec2 getPosition() { return position; }
-	void setPosition(glm::vec2 position)
+	void setPosition(glm::vec2 newPosition)
 	{
-		this->position = position;
+		this->position = newPosition;
 	}
 	void setPosition(float x, float y) 
 	{ 
@@ -35,9 +35,9 @@ public:
 		position.y = y; 
 	}
 
-	void setDirection(glm::vec2 direction)
+	void setDirection(glm::vec2 newDirection)
 	{
-		this->direction = direction;
+		this->direction = newDirection;
 	}
 
 	void setTexture(std::string textureName)
@@ -45,9 +45,9 @@ public:
 		texture = Palico::ResourceManager::getTexture(textureName);
 	}
 
-	void setSpeed(float speed)
+	void setSpeed(float newSpeed)
 	{
-		this->speed = speed;
+		this->speed = newSpeed;
 	}
 
 

@@ -28,12 +28,10 @@ Level::Level(const std::string & name)
 	spriteBatch.init();
 	spriteBatch.begin();
 	glm::vec4 uvRect(0.f, 0.f, 1.f, 1.f);
-
-	int yMax = levelData.size();
-
-	for (int y = 0; y < levelData.size(); y++)
+	
+	for (size_t y = 0; y < levelData.size(); y++)
 	{
-		for (int x = 0; x < levelData[y].size(); x++)
+		for (size_t x = 0; x < levelData[y].size(); x++)
 		{
 			char tile = levelData[y][x];
 			glm::vec4 destRect(x * TILE_WIDTH, y * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH);
@@ -128,7 +126,7 @@ glm::vec2 Level::checkTileCollision(glm::vec2 tile, glm::vec2 currentPosition, f
 	return newPosition;
 }
 
-void Level::addTile(std::vector<glm::vec2>& tiles, int x, int y)
+void Level::addTile(std::vector<glm::vec2>& tiles, float x, float y)
 {
 	glm::vec2 cornerPos = glm::vec2(
 		floor(x / TILE_WIDTH),
@@ -148,7 +146,7 @@ void Level::addTile(std::vector<glm::vec2>& tiles, int x, int y)
 	}
 }
 
-std::vector<glm::vec2> Level::getCollidingTiles(glm::vec2 position, int agentWidth)
+std::vector<glm::vec2> Level::getCollidingTiles(glm::vec2 position, float agentWidth)
 {
 	std::vector<glm::vec2> tiles;
 	addTile(tiles, position.x, position.y);

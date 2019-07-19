@@ -16,7 +16,7 @@ Player::~Player()
 void Player::update(float deltaTime, Level* level, std::vector<Friendly*> friendlies, std::vector<Ghost*> ghosts)
 {
 	handleLevelCollision(level);
-	for (int i = 0; i < fireBalls.size();)
+	for (size_t i = 0; i < fireBalls.size();)
 	{
 		if (fireBalls[i].update(deltaTime, ghosts, level))
 		{
@@ -35,7 +35,7 @@ void Player::draw(Palico::SpriteBatch& spriteBatch)
 {
 	Friendly::draw(spriteBatch);
 
-	for (int i = 0; i < fireBalls.size(); ++i)
+	for (size_t i = 0; i < fireBalls.size(); ++i)
 	{
 		fireBalls[i].draw(spriteBatch);
 	}

@@ -1,4 +1,4 @@
-Normals: 50
+Friendlies: 50
 RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
 R..............................R
 R..@...........................R

@@ -70,7 +70,7 @@ Friendly* Ghost::getNearestFriendly(std::vector<Friendly*> friendlies)
 	Friendly* closestFriendly = nullptr;
 	float smallestDistance = std::numeric_limits<float>::max();
 
-	for (int i = 0; i < friendlies.size(); i++)
+	for (size_t i = 0; i < friendlies.size(); i++)
 	{
 		glm::vec2 distanceVec = friendlies[i]->getPosition() - position;
 		float distance = glm::length(distanceVec);

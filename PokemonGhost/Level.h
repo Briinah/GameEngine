@@ -23,7 +23,7 @@ public:
 	int getWidth() const { return levelData[1].size(); }
 	int getHeight() const { return levelData.size(); }
 
-	std::vector<glm::vec2> getCollidingTiles(glm::vec2 position, int agentWidth);
+	std::vector<glm::vec2> getCollidingTiles(glm::vec2 position, float agentWidth);
 	std::vector<glm::vec2> getGhostStartPositions() { return ghostStartPositions; }
 
 private:
@@ -37,6 +37,6 @@ private:
 	glm::vec2 playerStartPosition;
 	std::vector<glm::vec2> ghostStartPositions;
 
-	void addTile(std::vector<glm::vec2>& tiles, int x, int y);
+	void addTile(std::vector<glm::vec2>& tiles, float x, float y);
 };
 

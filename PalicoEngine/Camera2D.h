@@ -14,23 +14,23 @@ namespace Palico
 
 		glm::vec2 getWorldPosition(glm::vec2 screenPosition);
 
-		void setPosition(const glm::vec2& position)
+		void setPosition(const glm::vec2& newPosition)
 		{
-			this->position = position;
+			this->position = newPosition;
 			needsUpdate = true;
 		}
-		void setScale(float scale)
+		void setScale(float newScale)
 		{
-			if (scale >= minScale && scale < maxScale)
+			if (newScale >= minScale && newScale < maxScale)
 			{
-				this->scale = scale;
+				this->scale = newScale;
 				needsUpdate = true;
 			}
 		}
-		void setScaleDimensions(float minScale, float maxScale) 
+		void setScaleDimensions(float newMinScale, float newMaxScale) 
 		{ 
-			this->minScale = minScale; 
-			this->maxScale = maxScale; 
+			this->minScale = newMinScale; 
+			this->maxScale = newMaxScale; 
 		}
 
 		glm::vec2 getPosition() { return position; }

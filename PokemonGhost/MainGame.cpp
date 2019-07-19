@@ -22,7 +22,7 @@ MainGame::MainGame() :
 
 MainGame::~MainGame()
 {
-	for (int i = 0; i < levels.size(); ++i)
+	for (size_t i = 0; i < levels.size(); ++i)
 	{
 		delete levels[i];
 	}
@@ -44,7 +44,7 @@ void MainGame::run()
 
 void MainGame::loadLevels()
 {
-	levels.push_back(new Level("0"));
+	levels.push_back(new Level("2"));
 }
 
 void MainGame::setCurrentLevel(int level)
@@ -61,13 +61,15 @@ void MainGame::setCurrentLevel(int level)
 	for (int i = 0; i < levels[currentLevel]->getNumFriendlies(); i++)
 	{
 		glm::vec2 position(randomPosX(randomEngine) * TILE_WIDTH, randomPosY(randomEngine) * TILE_WIDTH);
+		
+		//std::cout << "fr #" << i << " : " << position.x << " " << position.y << std::endl;
 
 		friendlies.push_back(new Friendly(1.0f, position, "clefairy"));
 	}
 
 	// generate ghosts
 	const std::vector<glm::vec2>& ghostPositions = levels[currentLevel]->getGhostStartPositions();
-	for (int i = 0; i < ghostPositions.size(); i++)
+	for (size_t i = 0; i < ghostPositions.size(); i++)
 	{
 		ghosts.push_back(new Ghost(1.3f, ghostPositions[i], "gengar"));
 	}
@@ -79,6 +81,7 @@ void MainGame::initSystems()
 	window.create("Pokemon Ghost", screenWidth, screenHeight, 0);
 	glClearColor(0.5f, 0.2f, 0.2f, 1.f);
 
+	camera.setScaleDimensions(0.1f, 3);
 	camera.setScale(1.5f);
 
 	initShaders();
@@ -170,32 +173,32 @@ void MainGame::update()
 
 void MainGame::updateAgents(float deltaTime)
 {
-	for (int i = 0; i < friendlies.size(); ++i)
+	for (size_t i = 0; i < friendlies.size(); ++i)
 	{
 		friendlies[i]->update(deltaTime, levels[currentLevel], friendlies, ghosts);
 	}
-	for (int i = 0; i < ghosts.size(); ++i)
+	for (size_t i = 0; i < ghosts.size(); ++i)
 	{
 		ghosts[i]->update(deltaTime, levels[currentLevel], friendlies, ghosts);
 	}
 
-	for (int i = 0; i < friendlies.size(); ++i)
+	for (size_t i = 0; i < friendlies.size(); ++i)
 	{
-		for (int j = i + 1; j < friendlies.size(); j++)
+		for (size_t j = i + 1; j < friendlies.size(); j++)
 		{
 			friendlies[i]->collideWithAgent(friendlies[j]);
 		}
 	}
 
-	for (int i = 0; i < ghosts.size(); ++i)
+	for (size_t i = 0; i < ghosts.size(); ++i)
 	{
-		for (int j = i + 1; j < ghosts.size(); j++)
+		for (size_t j = i + 1; j < ghosts.size(); j++)
 		{
 			ghosts[i]->collideWithAgent(ghosts[j]);
 		}
 
 		// skip the player
-		for (int j = 1; j < friendlies.size(); j++)
+		for (size_t j = 1; j < friendlies.size(); j++)
 		{
 			if (ghosts[i]->collideWithAgent(friendlies[j]))
 			{
@@ -246,11 +249,11 @@ void MainGame::draw()
 
 	spriteBatch.begin();
 
-	for (int i = 0; i < friendlies.size(); ++i)
+	for (size_t i = 0; i < friendlies.size(); ++i)
 	{
 		friendlies[i]->draw(spriteBatch);
 	}
-	for (int i = 0; i < ghosts.size(); ++i)
+	for (size_t i = 0; i < ghosts.size(); ++i)
 	{
 		ghosts[i]->draw(spriteBatch);
 	}

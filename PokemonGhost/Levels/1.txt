@@ -1,4 +1,4 @@
-Normals: 100
+Friendlies: 100
 RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
 R............................................................R
 R..@.........................................................R

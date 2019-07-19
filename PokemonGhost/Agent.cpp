@@ -3,6 +3,7 @@
 #include <PalicoEngine\ResourceManager.h>
 
 #include <algorithm>
+#include <math.h>
 
 
 Agent::Agent() : position(0, 0), direction(0, 0), speed(0)
@@ -60,7 +61,7 @@ bool Agent::handleLevelCollision(Level* level)
 		return false;
 	}
 
-	for (int i = 0; i < tiles.size(); i++)
+	for (size_t i = 0; i < tiles.size(); i++)
 	{
 		position = level->checkTileCollision(tiles[i], position, AGENT_RADIUS);
 	}

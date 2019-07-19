@@ -34,7 +34,7 @@ bool FireBall::update(float deltaTime, std::vector<Ghost*> ghosts, Level* level)
 
 bool FireBall::collideWithGhosts(std::vector<Ghost*> ghosts)
 {
-	for (int i = 0; i < ghosts.size(); i++)
+	for (size_t i = 0; i < ghosts.size(); i++)
 	{
 		const float MIN_DISTANCE = FIRE_RADIUS + AGENT_RADIUS;
 
@@ -65,7 +65,7 @@ bool FireBall::collideWithLevel(Level* level)
 		return false;
 	}
 
-	for (int i = 0; i < tiles.size(); i++)
+	for (size_t i = 0; i < tiles.size(); i++)
 	{
 		position = level->checkTileCollision(tiles[i], position, FIRE_RADIUS);
 		return true;

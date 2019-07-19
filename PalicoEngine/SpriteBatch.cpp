@@ -10,10 +10,6 @@ namespace Palico
 
 	SpriteBatch::~SpriteBatch()
 	{
-		for (int i = 0; i < sprites.size(); ++i)
-		{
-			delete sprites[i];
-		}
 	}
 
 	void SpriteBatch::init()
@@ -30,33 +26,18 @@ namespace Palico
 
 	void SpriteBatch::end()
 	{
+		spritePointers.resize(sprites.size());
+		for (size_t i = 0; i < sprites.size(); i++)
+		{
+			spritePointers[i] = &sprites[i];
+		}
 		sortSprites();
 		createRenderBatches();
 	}
 
 	void SpriteBatch::draw(const glm::vec4 & destRect, const glm::vec4 & uvRect, GLuint texture, float depth, const Color & color)
 	{
-		Sprite* sprite = new Sprite();
-		sprite->texture = texture;
-		sprite->depth = depth;
-
-		sprite->topLeft.color = color;
-		sprite->topLeft.setPosition(destRect.x, destRect.y + destRect.w);
-		sprite->topLeft.setUV(uvRect.x, uvRect.y + uvRect.w);
-
-		sprite->bottomLeft.color = color;
-		sprite->bottomLeft.setPosition(destRect.x, destRect.y);
-		sprite->bottomLeft.setUV(uvRect.x, uvRect.y);
-
-		sprite->bottomRight.color = color;
-		sprite->bottomRight.setPosition(destRect.x + destRect.z, destRect.y);
-		sprite->bottomRight.setUV(uvRect.x + uvRect.z, uvRect.y);
-
-		sprite->topRight.color = color;
-		sprite->topRight.setPosition(destRect.x + destRect.z, destRect.y + destRect.w);
-		sprite->topRight.setUV(uvRect.x + uvRect.z, uvRect.y + uvRect.w);
-
-		sprites.push_back(sprite);
+		sprites.emplace_back(destRect, uvRect, texture, depth, color);
 	}
 
 	void SpriteBatch::renderBatch()
@@ -73,31 +54,31 @@ namespace Palico
 	void SpriteBatch::createRenderBatches()
 	{
 		std::vector<Vertex> vertices;
-		vertices.resize(sprites.size() * 6);
+		vertices.resize(spritePointers.size() * 6);
 
-		if (sprites.empty()) return;
+		if (spritePointers.empty()) return;
 
 		int currentVert = 0;
 		int offset = 0;
 
-		for (int currentGlyph = 0; currentGlyph < sprites.size(); currentGlyph++)
+		for (int currentSprite = 0; currentSprite < spritePointers.size(); currentSprite++)
 		{
-			if (currentGlyph == 0 || sprites[currentGlyph]->texture != sprites[currentGlyph - 1]->texture)
+			if (currentSprite == 0 || spritePointers[currentSprite]->texture != spritePointers[currentSprite - 1]->texture)
 			{
 				// same as push_back but you do not need to create an object first
 				// just place the parameters of the constructor in it
-				this->renderBatches.emplace_back(offset, 6, sprites[currentGlyph]->texture);
+				this->renderBatches.emplace_back(offset, 6, spritePointers[currentSprite]->texture);
 			}
 			else
 			{
 				this->renderBatches.back().numVerts += 6;
 			}
-			vertices[currentVert++] = sprites[currentGlyph]->topRight;
-			vertices[currentVert++] = sprites[currentGlyph]->topLeft;
-			vertices[currentVert++] = sprites[currentGlyph]->bottomLeft;
-			vertices[currentVert++] = sprites[currentGlyph]->bottomLeft;
-			vertices[currentVert++] = sprites[currentGlyph]->bottomRight;
-			vertices[currentVert++] = sprites[currentGlyph]->topRight;
+			vertices[currentVert++] = spritePointers[currentSprite]->topRight;
+			vertices[currentVert++] = spritePointers[currentSprite]->topLeft;
+			vertices[currentVert++] = spritePointers[currentSprite]->bottomLeft;
+			vertices[currentVert++] = spritePointers[currentSprite]->bottomLeft;
+			vertices[currentVert++] = spritePointers[currentSprite]->bottomRight;
+			vertices[currentVert++] = spritePointers[currentSprite]->topRight;
 			offset += 6;
 		}
 
@@ -143,13 +124,13 @@ namespace Palico
 		switch (sortType)
 		{
 		case SpriteSortType::BACK_TO_FRONT:
-			std::stable_sort(sprites.begin(), sprites.end(), compareBackToFront);
+			std::stable_sort(spritePointers.begin(), spritePointers.end(), compareBackToFront);
 			break;
 		case SpriteSortType::FRONT_TO_BACK:
-			std::stable_sort(sprites.begin(), sprites.end(), compareFrontToBack);
+			std::stable_sort(spritePointers.begin(), spritePointers.end(), compareFrontToBack);
 			break;
 		case SpriteSortType::TEXTURE:
-			std::stable_sort(sprites.begin(), sprites.end(), compareTexture);
+			std::stable_sort(spritePointers.begin(), spritePointers.end(), compareTexture);
 			break;
 		}
 	}
