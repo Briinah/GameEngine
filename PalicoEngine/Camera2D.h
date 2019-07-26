@@ -37,6 +37,8 @@ namespace Palico
 		float getScale() { return scale; }
 		glm::mat4 getCameraMatrix() { return cameraMatrix; }
 
+		bool isInViewPort(const glm::vec2& position, const glm::vec2& dimensions);
+
 	private:
 		glm::vec2 position;
 		glm::mat4 cameraMatrix;

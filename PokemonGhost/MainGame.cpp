@@ -251,11 +251,17 @@ void MainGame::draw()
 
 	for (size_t i = 0; i < friendlies.size(); ++i)
 	{
-		friendlies[i]->draw(spriteBatch);
+		if (camera.isInViewPort(friendlies[i]->getPosition(), glm::vec2(AGENT_WIDTH)))
+		{
+			friendlies[i]->draw(spriteBatch);
+		}
 	}
 	for (size_t i = 0; i < ghosts.size(); ++i)
 	{
-		ghosts[i]->draw(spriteBatch);
+		if (camera.isInViewPort(ghosts[i]->getPosition(), glm::vec2(AGENT_WIDTH)))
+		{
+			ghosts[i]->draw(spriteBatch);
+		}
 	}
 
 	levels[currentLevel]->draw();

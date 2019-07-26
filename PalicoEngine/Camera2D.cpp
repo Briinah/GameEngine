@@ -46,4 +46,27 @@ namespace Palico
 
 		return screenPosition;
 	}
+
+	bool Camera2D::isInViewPort(const glm::vec2& position, const glm::vec2& dimensions)
+	{
+		const float scaledWidth = width / scale;
+		const float scaledHeight = height / scale;
+
+		const float MIN_WIDTH = dimensions.x / 2.0f + scaledWidth / 2.0f;
+		const float MIN_HEIGHT = dimensions.y / 2.0f + scaledHeight / 2.0f;
+		
+		// AABB
+		glm::vec2 objectPosition = position + dimensions / 2.0f;
+		glm::vec2 distance = objectPosition - this->position;
+
+		float xDepth = MIN_WIDTH - abs(distance.x);
+		float yDepth = MIN_HEIGHT - abs(distance.y);
+
+		if (xDepth > 0 && yDepth > 0)
+		{
+			return true;
+		}
+
+		return false;
+	}
 }
