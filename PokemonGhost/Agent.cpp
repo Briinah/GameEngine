@@ -17,6 +17,7 @@ Agent::~Agent()
 void Agent::update(float deltaTime, Level* level, std::vector<Friendly*> friendlies, std::vector<Ghost*> ghosts)
 {
 	position += direction * speed * deltaTime;
+
 	handleLevelCollision(level);
 }
 
@@ -29,7 +30,7 @@ void Agent::draw(Palico::SpriteBatch& spriteBatch)
 	spriteBatch.draw(pos, uv, texture.id, 1, color);
 }
 
-bool Agent::collideWithAgent(Agent * other)
+bool Agent::collideWithAgent(Agent* other)
 {
 	const float MIN_DISTANCE = AGENT_RADIUS * 2.0f;
 
@@ -42,7 +43,16 @@ bool Agent::collideWithAgent(Agent * other)
 	float collisionDepth = MIN_DISTANCE - distance;
 	if (collisionDepth > 0)
 	{
-		glm::vec2 collisionDepthVector = glm::normalize(distanceVector) * collisionDepth;
+		glm::vec2 collisionDepthVector;
+		if (glm::length(distanceVector) == 0)
+		{
+			collisionDepthVector = glm::vec2(1,0) * collisionDepth;
+		}
+		else
+		{
+			collisionDepthVector = glm::normalize(distanceVector) * collisionDepth; // glm::normalize(0) = NaN
+		}
+		
 		position += collisionDepthVector / 2.0f;
 		other->position -= collisionDepthVector / 2.0f;
 		return true;
@@ -55,7 +65,6 @@ bool Agent::collideWithAgent(Agent * other)
 bool Agent::handleLevelCollision(Level* level)
 {
 	std::vector<glm::vec2> tiles = level->getCollidingTiles(position, AGENT_WIDTH);
-
 	if (tiles.size() <= 0)
 	{
 		return false;

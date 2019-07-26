@@ -96,7 +96,8 @@ glm::vec2 Level::checkTileCollision(glm::vec2 tile, glm::vec2 currentPosition, f
 {
 	const float MIN_DIST = radius + TILE_RADIUS;
 
-	glm::vec2 newPosition = currentPosition;
+	glm::vec2 newPosition = currentPosition;	
+	
 	// AABB
 	glm::vec2 centerPlayer = currentPosition + radius;
 	glm::vec2 distance = centerPlayer - tile;
@@ -134,7 +135,7 @@ void Level::addTile(std::vector<glm::vec2>& tiles, float x, float y)
 
 	// collision out of bounds
 	if (cornerPos.x < 0 || cornerPos.x >= levelData[1].size() ||
-		cornerPos.y < 0 || cornerPos.y >= levelData.size())
+		cornerPos.y < 1 || cornerPos.y >= levelData.size())
 	{
 		std::cout << "Level::addTile -> collision out of bounds! x: " << cornerPos.x << " " << cornerPos.y << std::endl;
 		return;

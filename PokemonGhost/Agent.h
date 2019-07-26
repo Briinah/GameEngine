@@ -4,6 +4,7 @@
 #include <PalicoEngine\SpriteBatch.h>
 #include <PalicoEngine\ResourceManager.h>
 #include <string>
+#include <iostream>
 
 #include <PokemonGhost\Level.h>
 
@@ -24,7 +25,10 @@ public:
 	virtual void draw(Palico::SpriteBatch& spriteBatch);
 	bool collideWithAgent(Agent* other);
 
-	glm::vec2 getPosition() { return position; }
+	glm::vec2 getPosition() 
+	{ 
+		return position; 
+	}
 	void setPosition(glm::vec2 newPosition)
 	{
 		this->position = newPosition;

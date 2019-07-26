@@ -1,11 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.329
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29102.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PalicoEngine", "PalicoEngine\PalicoEngine.vcxproj", "{5ED41DAE-BD35-4175-A00A-0205E8D214EA}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PokemonGhost", "PokemonGhost\PokemonGhost.vcxproj", "{0F14B671-D5F7-425F-BA9D-A496095D6276}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5ED41DAE-BD35-4175-A00A-0205E8D214EA} = {5ED41DAE-BD35-4175-A00A-0205E8D214EA}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -7,6 +7,8 @@
 
 #include <PalicoEngine\ResourceManager.h>
 
+#pragma float_control( except, on )
+
 
 MainGame::MainGame() :
 	screenWidth(1024),
@@ -44,7 +46,7 @@ void MainGame::run()
 
 void MainGame::loadLevels()
 {
-	levels.push_back(new Level("2"));
+	levels.push_back(new Level("0"));
 }
 
 void MainGame::setCurrentLevel(int level)
@@ -61,8 +63,6 @@ void MainGame::setCurrentLevel(int level)
 	for (int i = 0; i < levels[currentLevel]->getNumFriendlies(); i++)
 	{
 		glm::vec2 position(randomPosX(randomEngine) * TILE_WIDTH, randomPosY(randomEngine) * TILE_WIDTH);
-		
-		//std::cout << "fr #" << i << " : " << position.x << " " << position.y << std::endl;
 
 		friendlies.push_back(new Friendly(1.0f, position, "clefairy"));
 	}
@@ -153,16 +153,16 @@ void MainGame::processInput(float deltaTime)
 
 void MainGame::update()
 {
-
 	const float MAX_PHYSICS_STEPS = 5;
 	float totalDeltaTime = gameTime.getTotalDeltaTime();
 	int i = 0;
 	while (totalDeltaTime > 0.0f && i < MAX_PHYSICS_STEPS)
 	{
 		float deltaTime = std::min(totalDeltaTime, gameTime.MAX_DELTA_TIME);
-		//processInput(deltaTime);
-		player->processInput(inputManager, deltaTime);
-		updateAgents(deltaTime);
+		player->processInput(inputManager, deltaTime); 
+
+		updateAgents(deltaTime); 
+
 		i++;
 		totalDeltaTime -= deltaTime;
 	}
@@ -186,10 +186,10 @@ void MainGame::updateAgents(float deltaTime)
 	{
 		for (size_t j = i + 1; j < friendlies.size(); j++)
 		{
-			friendlies[i]->collideWithAgent(friendlies[j]);
+			friendlies[i]->collideWithAgent(friendlies[j]); 
 		}
 	}
-
+	
 	for (size_t i = 0; i < ghosts.size(); ++i)
 	{
 		for (size_t j = i + 1; j < ghosts.size(); j++)

@@ -2,9 +2,11 @@
 
 #include <random>
 #include <ctime>
+#include <iostream>
 
 #define _USE_MATH_DEFINES
 #include <math.h>
+#include <cmath>
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm\gtx\rotate_vector.hpp>
@@ -14,12 +16,12 @@ Friendly::Friendly(float speed, glm::vec2 position, std::string texture) : frame
 	this->speed = speed;
 	this->position = position;
 	setTexture(texture);
-
+	
 	// only want to seed the engine once
 	static std::mt19937 randomEngine(time(nullptr));
 	static std::uniform_real_distribution<float> distribution(-1.0f, 1.0f);
 
-	setDirection(glm::normalize(glm::vec2(distribution(randomEngine), distribution(randomEngine))));
+	setDirection(glm::normalize(glm::vec2(distribution(randomEngine), distribution(randomEngine))));	
 }
 
 Friendly::~Friendly()
@@ -28,6 +30,7 @@ Friendly::~Friendly()
 
 void Friendly::update(float deltaTime, Level * level, std::vector<Friendly*> friendlies, std::vector<Ghost*> ghosts)
 {
+
 	position += direction * speed * deltaTime;
 
 	static std::mt19937 randomEngine(time(nullptr));
@@ -41,8 +44,8 @@ void Friendly::update(float deltaTime, Level * level, std::vector<Friendly*> fri
 	else
 	{
 		frames++;
-	}
-
+	}	
+	
 	if (handleLevelCollision(level))
 	{
 		direction = glm::rotate(direction, randRotate(randomEngine));
