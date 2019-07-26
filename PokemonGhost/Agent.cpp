@@ -32,7 +32,20 @@ void Agent::draw(Palico::SpriteBatch& spriteBatch)
 
 bool Agent::collideWithAgent(Agent* other)
 {
-	const float MIN_DISTANCE = AGENT_RADIUS * 2.0f;
+	// Is the Agent too far away in the X direction to check?
+	if (other->position.x < position.x - AGENT_WIDTH)      
+		return false;
+	else if (other->position.x > position.x + AGENT_WIDTH) 
+		return false;
+
+	// Is the Agent too far away in the Y direction to check?
+	if (other->position.y < position.y - AGENT_WIDTH)      
+		return false;
+	else if (other->position.y > position.y + AGENT_WIDTH) 
+		return false;
+
+	// collision
+	const float MIN_DISTANCE = AGENT_WIDTH; 
 
 	glm::vec2 centerPosA = position + glm::vec2(AGENT_RADIUS);
 	glm::vec2 centerPosB = other->position + glm::vec2(AGENT_RADIUS);

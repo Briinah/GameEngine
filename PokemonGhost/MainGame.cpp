@@ -46,7 +46,7 @@ void MainGame::run()
 
 void MainGame::loadLevels()
 {
-	levels.push_back(new Level("0"));
+	levels.push_back(new Level("2"));
 }
 
 void MainGame::setCurrentLevel(int level)
