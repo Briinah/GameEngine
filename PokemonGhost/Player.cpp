@@ -66,5 +66,5 @@ void Player::addFireBall(glm::vec2 mousePosition)
 	glm::vec2 direction = mousePosition - position;
 	direction = glm::normalize(direction);
 
-	fireBalls.emplace_back(position, direction, 8, 30);
+	fireBalls.emplace_back(position, direction, 13, 30);
 }
