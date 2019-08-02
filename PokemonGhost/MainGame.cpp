@@ -17,7 +17,11 @@ MainGame::MainGame() :
 	camera(screenWidth, screenHeight),
 	fpsLimiter(60),
 	gameTime(&fpsLimiter),
-	player(nullptr)
+	player(nullptr),
+	hud(nullptr),
+	currentLevel(0),
+	fps(0),
+	spriteFont(nullptr)
 {
 }
 
@@ -40,6 +44,7 @@ void MainGame::run()
 	player = new Player(4, glm::vec2(0), "charmander");
 	friendlies.push_back(player);
 	setCurrentLevel(0);
+	hud = new HUD(&friendlies);
 
 	gameLoop();
 }
@@ -86,6 +91,9 @@ void MainGame::initSystems()
 
 	initShaders();
 	spriteBatch.init();
+	uiSpriteBatch.init();
+
+	spriteFont = new Palico::SpriteFont("Fonts/Roboto-Regular.ttf", 32);
 }
 
 void MainGame::initShaders()
@@ -265,6 +273,8 @@ void MainGame::draw()
 	}
 
 	levels[currentLevel]->draw();
+
+	hud->draw(uiSpriteBatch, spriteFont);
 
 	spriteBatch.end();
 	spriteBatch.renderBatch();

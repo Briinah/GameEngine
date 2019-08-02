@@ -12,11 +12,13 @@
 #include <PalicoEngine\SpriteBatch.h>
 #include <PalicoEngine\InputManager.h>
 #include <PalicoEngine\Timing.h>
+#include <PalicoEngine\SpriteFont.h>
 
 #include "Player.h"
 #include "Friendly.h"
 #include "Ghost.h"
 #include "Level.h"
+#include "HUD.h"
 
 enum class GameState { PLAY, EXIT };
 
@@ -51,13 +53,17 @@ private:
 	Palico::GLSLProgram colorProgram;
 	Palico::Camera2D camera;
 	Palico::SpriteBatch spriteBatch;
+	Palico::SpriteBatch uiSpriteBatch;
 	Palico::InputManager inputManager;
 	Palico::FpsLimiter fpsLimiter;
 	Palico::Time gameTime;
+	Palico::SpriteFont* spriteFont;
 
 	Player* player;
+	HUD* hud;
 	std::vector<Ghost*> ghosts;
 	std::vector<Friendly*> friendlies;
+
 
 	float fps;
 
