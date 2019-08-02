@@ -6,7 +6,7 @@
 
 namespace Palico
 {
-	GLSLProgram::GLSLProgram() : numAttributes(0), programID(0), vertexShaderID(0), fragmentShaderID(0)
+	GLSLProgram::GLSLProgram() 
 	{
 	}
 

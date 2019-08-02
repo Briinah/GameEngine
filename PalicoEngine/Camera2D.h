@@ -44,14 +44,14 @@ namespace Palico
 		glm::mat4 cameraMatrix;
 		glm::mat4 orthoMatrix;
 
-		float scale;
-		bool needsUpdate;
+		float scale = 1.0f;
+		bool needsUpdate = true;
 
 		int width;
 		int height;
 
-		float minScale;
-		float maxScale;
+		float minScale = 0.5f;
+		float maxScale = 4.0f;
 	};
 
 }

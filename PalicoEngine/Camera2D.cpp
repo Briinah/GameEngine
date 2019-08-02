@@ -6,12 +6,8 @@ namespace Palico
 		position(0.0f, 0.0f),
 		cameraMatrix(1.0f),
 		orthoMatrix(1.0f),
-		scale(1),
-		needsUpdate(true),
 		width(width),
-		height(height),
-		minScale(0.5f),
-		maxScale(4.0f)
+		height(height)
 	{
 		this->orthoMatrix = glm::ortho(0.0f, (float)this->width, 0.0f, (float)this->height);
 	}

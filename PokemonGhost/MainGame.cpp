@@ -11,18 +11,10 @@
 
 
 MainGame::MainGame() :
-	screenWidth(1024),
-	screenHeight(768),
-	gameState(GameState::PLAY),
 	camera(screenWidth, screenHeight),
 	hudCamera(screenWidth, screenHeight),
 	fpsLimiter(60),
-	gameTime(&fpsLimiter),
-	player(nullptr),
-	hud(nullptr),
-	currentLevel(0),
-	fps(0),
-	spriteFont(nullptr)
+	gameTime(&fpsLimiter)
 {
 }
 

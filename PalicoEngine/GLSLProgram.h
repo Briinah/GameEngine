@@ -22,13 +22,13 @@ namespace Palico
 		void unuse();
 	private:
 
-		int numAttributes;
+		int numAttributes = 0;
 
 		void compileShader(const std::string& filePath, GLuint shaderID);
 
-		GLuint programID;
-		GLuint vertexShaderID;
-		GLuint fragmentShaderID;
+		GLuint programID = 0;
+		GLuint vertexShaderID = 0;
+		GLuint fragmentShaderID = 0;
 	};
 
 }

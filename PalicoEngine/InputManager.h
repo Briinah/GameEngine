@@ -11,7 +11,7 @@ namespace Palico
 		InputManager();
 		~InputManager();
 
-		bool quit;
+		bool quit = false;
 
 		void update();
 
@@ -28,7 +28,7 @@ namespace Palico
 		void pressKey(unsigned int keyID);
 		void releaseKey(unsigned int keyID);
 
-		int scrollAmount;
+		int scrollAmount = 0;
 
 		std::unordered_map<unsigned int, bool> keyMap;
 		std::unordered_map<unsigned int, bool> keyPressedMap;
@@ -36,7 +36,7 @@ namespace Palico
 
 		glm::vec2 mousePosition;
 
-		unsigned int keyPressed;
+		unsigned int keyPressed = 0;
 	};
 
 }

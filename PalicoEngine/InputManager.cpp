@@ -5,7 +5,7 @@
 namespace Palico
 {
 
-	InputManager::InputManager() : mousePosition(0), quit(false)
+	InputManager::InputManager() : mousePosition(0)
 	{
 	}
 

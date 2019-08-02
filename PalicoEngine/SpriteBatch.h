@@ -41,8 +41,8 @@ namespace Palico
 			topRight.setUV(uvRect.x + uvRect.z, uvRect.y + uvRect.w);
 		}
 
-		GLuint texture;
-		float depth;
+		GLuint texture = 0;
+		float depth = 0;
 
 		Vertex topLeft;
 		Vertex bottomLeft;
@@ -81,10 +81,10 @@ namespace Palico
 		static bool compareBackToFront(Sprite* a, Sprite* b);
 		static bool compareTexture(Sprite* a, Sprite* b);
 
-		GLuint vbo;
-		GLuint vao;
+		GLuint vbo = 0;
+		GLuint vao = 0;
 
-		SpriteSortType sortType;
+		SpriteSortType sortType = SpriteSortType::NONE;
 
 		std::vector<Sprite*> spritePointers;
 		std::vector<Sprite> sprites;

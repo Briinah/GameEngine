@@ -62,7 +62,7 @@ constexpr auto LAST_PRINTABLE_CHAR = ((char)126);
 		Char* chars;
 		int fontHeight;
 
-		unsigned int textureID;
+		unsigned int textureID = 0;
 	};
 }
 

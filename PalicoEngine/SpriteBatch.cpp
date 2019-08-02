@@ -3,7 +3,7 @@
 
 namespace Palico
 {
-	SpriteBatch::SpriteBatch() : vbo(0), vao(0)
+	SpriteBatch::SpriteBatch()
 	{
 	}
 

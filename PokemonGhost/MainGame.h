@@ -46,9 +46,9 @@ private:
 	void draw();
 
 	Palico::Window window;
-	int screenWidth;
-	int screenHeight;
-	GameState gameState;
+	int screenWidth = 1024;
+	int screenHeight = 768;
+	GameState gameState = GameState::PLAY;
 
 	Palico::GLSLProgram colorProgram;
 	Palico::Camera2D camera;
@@ -58,18 +58,17 @@ private:
 	Palico::InputManager inputManager;
 	Palico::FpsLimiter fpsLimiter;
 	Palico::Time gameTime;
-	Palico::SpriteFont* spriteFont;
+	Palico::SpriteFont* spriteFont = nullptr;
 
-	Player* player;
-	HUD* hud;
+	Player* player = nullptr;
+	HUD* hud = nullptr;
+
 	std::vector<Ghost*> ghosts;
 	std::vector<Friendly*> friendlies;
 
-
-	float fps;
+	float fps = 0;
 
 	std::vector<Level*> levels;
-
-	int currentLevel;
+	int currentLevel = 0;
 };
 
