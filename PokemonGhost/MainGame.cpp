@@ -15,6 +15,7 @@ MainGame::MainGame() :
 	screenHeight(768),
 	gameState(GameState::PLAY),
 	camera(screenWidth, screenHeight),
+	hudCamera(screenWidth, screenHeight),
 	fpsLimiter(60),
 	gameTime(&fpsLimiter),
 	player(nullptr),
@@ -44,7 +45,7 @@ void MainGame::run()
 	player = new Player(4, glm::vec2(0), "charmander");
 	friendlies.push_back(player);
 	setCurrentLevel(0);
-	hud = new HUD(&friendlies);
+	hud = new HUD(&friendlies, &ghosts, screenWidth, screenHeight);
 
 	gameLoop();
 }
@@ -88,6 +89,7 @@ void MainGame::initSystems()
 
 	camera.setScaleDimensions(0.1f, 3);
 	camera.setScale(1.5f);
+	hudCamera.setPosition(glm::vec2(screenWidth / 2, screenHeight / 2));
 
 	initShaders();
 	spriteBatch.init();
@@ -177,6 +179,7 @@ void MainGame::update()
 	processInput(1);
 	inputManager.update();
 	camera.update();
+	hudCamera.update();
 }
 
 void MainGame::updateAgents(float deltaTime)
@@ -274,10 +277,15 @@ void MainGame::draw()
 
 	levels[currentLevel]->draw();
 
-	hud->draw(uiSpriteBatch, spriteFont);
 
 	spriteBatch.end();
 	spriteBatch.renderBatch();
+
+	// set hudcamera projection matrix
+	glm::mat4 hudProjectionMatrix = hudCamera.getCameraMatrix();
+	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(hudProjectionMatrix[0][0]));
+
+	hud->draw(uiSpriteBatch, spriteFont);
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 

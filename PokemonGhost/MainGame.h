@@ -52,6 +52,7 @@ private:
 
 	Palico::GLSLProgram colorProgram;
 	Palico::Camera2D camera;
+	Palico::Camera2D hudCamera;
 	Palico::SpriteBatch spriteBatch;
 	Palico::SpriteBatch uiSpriteBatch;
 	Palico::InputManager inputManager;
